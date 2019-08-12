@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+			http://www.springframework.org/schema/mvc 
+			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/websocket
+            http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+
+
+	<bean id="majiangWebSocketHandler" class="com.nbcb.web.websocket.MajiangWebSocketHandler">
+		<property name="onlineUserRegistry" ref="onlineUserRegistry"></property>
+		<property name="playerStatQuery" ref="playerStatQuery"></property>
+		<property name="server" ref="gameServer"></property>
+		<property name="requestHandler" ref="requestHandler"></property>
+		<property name="userOutputApi" ref="userOutputApi"></property>
+		<property name="userActionApi" ref="userActionApi"></property>
+	</bean>
+
+	<beans profile="default">
+		<websocket:handlers>
+			<websocket:mapping path="/websocket" handler="majiangWebSocketHandler" />
+			<websocket:handshake-interceptors>
+				<bean class="com.nbcb.web.websocket.DevMajiangHandshakeInterceptor">
+					<property name="onlineUserRegistry" ref="onlineUserRegistry"></property>
+					<property name="playerStatQuery" ref="playerStatQuery"></property>
+					<property name="server" ref="gameServer"></property>
+					<property name="userActionApi" ref="userActionApi"></property>
+					<property name="weixinUserService" ref="weixinUserService"></property>
+				</bean>
+			</websocket:handshake-interceptors>
+		</websocket:handlers>
+	</beans>
+	<beans profile="test">
+		<websocket:handlers>
+			<websocket:mapping path="/websocket" handler="majiangWebSocketHandler" />
+			<websocket:handshake-interceptors>
+				<bean class="com.nbcb.web.websocket.MajiangHandshakeInterceptor">
+					<property name="playerStatQuery" ref="playerStatQuery"></property>
+					<property name="server" ref="gameServer"></property>
+					<property name="userActionApi" ref="userActionApi"></property>
+					<property name="weixinUserService" ref="weixinUserService"></property>
+				</bean>
+			</websocket:handshake-interceptors>
+		</websocket:handlers>
+	</beans>
+	<beans profile="prod">
+		<websocket:handlers>
+			<websocket:mapping path="/websocket" handler="majiangWebSocketHandler" />
+			<websocket:handshake-interceptors>
+				<bean class="com.nbcb.web.websocket.MajiangHandshakeInterceptor">
+					<property name="playerStatQuery" ref="playerStatQuery"></property>
+					<property name="server" ref="gameServer"></property>
+					<property name="userActionApi" ref="userActionApi"></property>
+					<property name="weixinUserService" ref="weixinUserService"></property>
+				</bean>
+			</websocket:handshake-interceptors>
+		</websocket:handlers>
+	</beans>
+
+
+
+
+</beans>

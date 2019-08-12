@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ningbo3baidaMajiangRule" class="com.nbcb.majiang.rule.MajiangRule">
+		<property name="roomStopJudger" ref="jushuRoomStopJudger"></property>
+		<property name="messageListener" ref="messageListener"></property>
+		<property name="actionExecutorMapping" ref="ningbo3baidaActionExecutorMapping" />
+		<property name="actionCalculatorMapping" ref="ningbo3baidaActionCalculatorMapping" />
+		<property name="actionNotify" ref="actionNotify" />
+	</bean>
+
+	<bean id="ningbo3baidaAllocateActionExecutor"
+		class="com.nbcb.majiang.ningbo.threebaida.NingboMajiang3BaidaAllocateActionExecutor">
+	</bean>
+
+	<bean id="ningbo3baidaActionExecutorMapping" class="com.nbcb.core.rule.DefaultActionExecutorMapping">
+		<property name="actionExecutors">
+			<list>
+				<ref bean="emptyMajiangActionExecutor" />
+				<ref bean="ningbo3baidaAllocateActionExecutor" />
+				<ref bean="majiangMoFrontActionExecutor" />
+				<ref bean="majiangMoBackActionExecutor" />
+				<ref bean="majiangMoFrontHuActionExecutor" />
+				<ref bean="majiangMoBackHuActionExecutor" />
+				<ref bean="majiangFangQiangHuActionExecutor" />
+				<ref bean="majiangQiangGangHuActionExecutor" />
+				<ref bean="majiangDaHuaActionExecutor" />
+				<ref bean="majiangDaNonHuaActionExecutor" />
+				<ref bean="majiangPengActionExecutor" />
+				<ref bean="majiangChiActionExecutor" />
+				<ref bean="majiangXianGangActionExecutor" />
+				<ref bean="majiangMingGangActionExecutor" />
+				<ref bean="majiangAnGangActionExecutor" />
+				<ref bean="majiangHuangPaiActionExecutor" />
+				<ref bean="ningbo4baidaCompleteActionExecutor" />
+			</list>
+		</property>
+	</bean>
+
+
+
+
+
+
+
+
+
+	<bean id="ningboMajiang3BaidaHuStrategy"
+		class="com.nbcb.majiang.ningbo.threebaida.NingboMajiang3BaidaHuStrategy">
+		<property name="messageListener" ref="messageListener"></property>
+		<property name="listMjHuJudger">
+			<list>
+				<ref bean="huaHuJudger" />
+				<ref bean="paiHuJudger" />
+
+				<ref bean="qingyiseHuJudger" />
+				<ref bean="hunyiseHuJudger" />
+				<ref bean="duiduiHuJudger" />
+
+				<ref bean="paodaHuJudger" />
+				<ref bean="huandaHuJudger" />
+				<ref bean="wudaHuJudger" />
+				<ref bean="sibaidaHuJudger" />
+				<ref bean="sanbaidaHuJudger" />
+
+				<ref bean="menqingHuJudger" />
+				<ref bean="dadiaoHuJudger" />
+
+				<ref bean="zfbHuJudger" />
+				<ref bean="dnxbHuJudger" />
+
+				<ref bean="dandiaoHuJudger" />
+				<ref bean="duidaoHuJudger" />
+				<ref bean="kadaoHuJudger" />
+
+				<ref bean="zimoHuJudger" />
+				<ref bean="gangtoukaihuaHuJudger" />
+			</list>
+		</property>
+		<property name="mapHuFan">
+			<map>
+				<entry key="清一色" value="6" />
+				<entry key="混一色" value="3" />
+				<entry key="对对胡" value="3" />
+
+				<entry key="抛搭" value="1" />
+				<entry key="无搭" value="1" />
+				<entry key="三百搭" value="5" />
+				<entry key="四百搭" value="10" />
+
+				<entry key="门清" value="1" />
+				<entry key="大吊车" value="1" />
+
+				<entry key="单吊" value="1" />
+				<entry key="对倒" value="1" />
+				<entry key="卡张" value="1" />
+
+				<entry key="自摸" value="1" />
+				<entry key="杠头开花" value="1" />
+			</map>
+		</property>
+	</bean>
+
+
+
+
+	<bean id="ningbo3baidaFangQiangHuActionJudger"
+		class="com.nbcb.majiang.rule.judger.MajiangFangQiangQiangGangHuActionJudger">
+		<property name="huStrategy" ref="ningboMajiang3BaidaHuStrategy"></property>
+		<property name="fangQiang" value="true"></property>
+	</bean>
+	<bean id="ningbo3baidaQiangGangHuActionJudger"
+		class="com.nbcb.majiang.rule.judger.MajiangFangQiangQiangGangHuActionJudger">
+		<property name="huStrategy" ref="ningboMajiang3BaidaHuStrategy"></property>
+		<property name="fangQiang" value="false"></property>
+	</bean>
+	<bean id="ningbo3baidaMoFrontHuActionJudger" class="com.nbcb.majiang.rule.judger.MajiangMoHuActionJudger">
+		<property name="huStrategy" ref="ningboMajiang3BaidaHuStrategy"></property>
+		<property name="moFront" value="true"></property>
+	</bean>
+	<bean id="ningbo3baidaMoBackHuActionJudger" class="com.nbcb.majiang.rule.judger.MajiangMoHuActionJudger">
+		<property name="huStrategy" ref="ningboMajiang3BaidaHuStrategy"></property>
+		<property name="moFront" value="false"></property>
+	</bean>
+
+
+
+	<bean id="ningbo3baidaDaNonHuaActionCalculator"
+		class="com.nbcb.majiang.rule.calculator.MajiangDaNonHuaActionCalculator">
+		<property name="chiActionJudger" ref="chiActionJudger" />
+		<property name="mingGangActionJudger" ref="mingGangActionJudger" />
+		<property name="pengActionJudger" ref="pengActionJudger" />
+		<property name="fangQiangHuActionJudger" ref="ningbo3baidaFangQiangHuActionJudger" />
+	</bean>
+	<bean id="ningbo3baidaMoFrontActionCalculator"
+		class="com.nbcb.majiang.rule.calculator.MajiangMoFrontActionCalculator">
+		<property name="huActionJudger" ref="ningbo3baidaMoFrontHuActionJudger" />
+		<property name="anGangActionJudger" ref="anGangActionJudger" />
+		<property name="xianGangActionJudger" ref="xianGangActionJudger" />
+	</bean>
+	<bean id="ningbo3baidaMoBackActionCalculator"
+		class="com.nbcb.majiang.rule.calculator.MajiangMoBackActionCalculator">
+		<property name="anGangActionJudger" ref="anGangActionJudger" />
+		<property name="xianGangActionJudger" ref="xianGangActionJudger" />
+		<property name="huActionJudger" ref="ningbo3baidaMoBackHuActionJudger" />
+	</bean>
+	<bean id="ningbo3baidaXianGangActionCalculator"
+		class="com.nbcb.majiang.rule.calculator.MajiangXianGangActionCalculator">
+		<property name="qiangGangHu" ref="ningbo3baidaQiangGangHuActionJudger" />
+	</bean>
+
+
+
+	<bean id="ningbo3baidaActionCalculatorMapping" class="com.nbcb.core.rule.DefaultActionCalculatorMapping">
+		<property name="actionCalculators">
+			<list>
+				<ref bean="emptyMajiangActionCalculator" />
+				<ref bean="majiangAllocateActionCalculator" />
+				<ref bean="ningbo3baidaMoFrontActionCalculator" />
+				<ref bean="ningbo3baidaMoBackActionCalculator" />
+				<ref bean="majiangMoFrontHuActionCalculator" />
+				<ref bean="majiangMoBackHuActionCalculator" />
+				<ref bean="majiangFangQiangHuActionCalculator" />
+				<ref bean="majiangQiangGangHuActionCalculator" />
+				<ref bean="majiangDaHuaActionCalculator" />
+				<ref bean="ningbo3baidaDaNonHuaActionCalculator" />
+				<ref bean="majiangPengActionCalculator" />
+				<ref bean="majiangChiActionCalculator" />
+				<ref bean="ningbo3baidaXianGangActionCalculator" />
+				<ref bean="majiangMingGangActionCalculator" />
+				<ref bean="majiangAnGangActionCalculator" />
+				<ref bean="majiangHuangPaiActionCalculator" />
+				<ref bean="majiangCompleteActionCalculator" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

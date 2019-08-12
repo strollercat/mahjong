@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<title>麻将馆管理员</title>
+
+
+<!-- 	<link rel="stylesheet" href="3rd/weui.min.css"> -->
+<!-- 	<link rel="stylesheet" href="3rd/jquery-weui.min.css"> -->
+
+<!-- <link rel="stylesheet" -->
+<!-- 	href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css"> -->
+<!-- <link rel="stylesheet" -->
+<!-- 	href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css"> -->
+
+<link rel="stylesheet" href="https://cdn.nbcb.com.cn/3rd/weui.min.css">
+<link rel="stylesheet"
+	href="https://cdn.nbcb.com.cn/3rd/jquery-weui.min.css">
+<style>
+html,body {
+	height: 100%;
+	background-color: #f8f8f8;
+}
+</style>
+</head>
+<body ontouchstart>
+	<div class="weui-tab">
+		<div class="weui-tab__bd">
+
+			<div id="tab1" class="weui-tab__bd-item">
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__bd">
+						<a href="javascript:void(0);"
+							class="weui-media-box weui-media-box_appmsg">
+							<div class="weui-media-box__hd">
+								<img class="weui-media-box__thumb head_image" src="">
+							</div>
+							<div class="weui-media-box__bd">
+								<h4 class="weui-media-box__title nick_name"></h4>
+								<p class="weui-media-box__desc money"></p>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__hd">代理商明细查询</div>
+					<div class="weui-panel__bd" id="listRecommend"></div>
+					<div class="weui-panel__ft">
+						<a href="javascript:void(0);"
+							class="weui-cell weui-cell_access weui-cell_link"
+							id="loadMoreRecommend">
+							<div class="weui-cell__bd">点击查询更多</div> <span
+							class="weui-cell__ft"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+
+			<div id="tab2" class="weui-tab__bd-item ">
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__bd">
+						<a href="javascript:void(0);"
+							class="weui-media-box weui-media-box_appmsg">
+							<div class="weui-media-box__hd">
+								<img class="weui-media-box__thumb head_image" src="">
+							</div>
+							<div class="weui-media-box__bd">
+								<h4 class="weui-media-box__title nick_name"></h4>
+								<p class="weui-media-box__desc money"></p>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="weui-cells">
+					<div class="weui-cells_title">设置代理商</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">用户ID</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="agentId" class="weui-input" type="text"
+								placeholder="请输入用户ID">
+						</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">代理商标志</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="isAgent" class="weui-input" type="text"
+								placeholder="1设置为代理商,0取消代理商">
+						</div>
+					</div>
+				</div>
+				<a id="agentSet" href="javascript:;" style="margin-top: 25px;"
+					class="weui-btn  weui-btn_primary">设置代理商</a>
+
+			</div>
+
+
+
+
+
+
+
+			<div id="tab3" class="weui-tab__bd-item weui-tab__bd-item--active">
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__bd">
+						<a href="javascript:void(0);"
+							class="weui-media-box weui-media-box_appmsg">
+							<div class="weui-media-box__hd">
+								<img class="weui-media-box__thumb head_image" src="">
+							</div>
+							<div class="weui-media-box__bd">
+								<h4 class="weui-media-box__title nick_name"></h4>
+								<p class="weui-media-box__desc money"></p>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__hd">开房明细查询</div>
+					<div class="weui-panel__bd" id="listBody"></div>
+					<div class="weui-panel__ft">
+						<a href="javascript:void(0);"
+							class="weui-cell weui-cell_access weui-cell_link" id="loadMore">
+							<div class="weui-cell__bd">点击查询更多</div> <span
+							class="weui-cell__ft"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+
+			<div id="tab4" class="weui-tab__bd-item">
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__bd">
+						<a href="javascript:void(0);"
+							class="weui-media-box weui-media-box_appmsg">
+							<div class="weui-media-box__hd">
+								<img class="weui-media-box__thumb head_image" src="">
+							</div>
+							<div class="weui-media-box__bd">
+								<h4 class="weui-media-box__title nick_name"></h4>
+								<p class="weui-media-box__desc money"></p>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__hd">用户明细查询</div>
+					<div class="weui-cell weui-cell_select weui-cell_select-after">
+						<div class="weui-cell__hd">
+							<label for="" class="weui-label">升序降序</label>
+						</div>
+						<div class="weui-cell__bd">
+							<select class="weui-select" name="scoreDir">
+								<option value="1">积分从高到低</option>
+								<option value="2">积分从低到高</option>
+							</select>
+						</div>
+					</div>
+					<div class="weui-panel__bd" id="listBodyUser"></div>
+					<div class="weui-panel__ft">
+						<a href="javascript:void(0);"
+							class="weui-cell weui-cell_access weui-cell_link"
+							id="loadMoreUser">
+							<div class="weui-cell__bd">点击查询更多</div> <span
+							class="weui-cell__ft"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+
+			<div id="tab5" class="weui-tab__bd-item">
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__bd">
+						<a href="javascript:void(0);"
+							class="weui-media-box weui-media-box_appmsg">
+							<div class="weui-media-box__hd">
+								<img class="weui-media-box__thumb head_image" src="">
+							</div>
+							<div class="weui-media-box__bd">
+								<h4 class="weui-media-box__title nick_name"></h4>
+								<p class="weui-media-box__desc money"></p>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__hd">输赢记录明细查询</div>
+					<div class="weui-panel__bd" id="listBodyWinLose"></div>
+					<div class="weui-panel__ft">
+						<a href="javascript:void(0);"
+							class="weui-cell weui-cell_access weui-cell_link"
+							id="loadMoreWinLose">
+							<div class="weui-cell__bd">点击查询更多</div> <span
+							class="weui-cell__ft"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+
+			<div id="tab6" class="weui-tab__bd-item ">
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__bd">
+						<a href="javascript:void(0);"
+							class="weui-media-box weui-media-box_appmsg">
+							<div class="weui-media-box__hd">
+								<img class="weui-media-box__thumb head_image" src="">
+							</div>
+							<div class="weui-media-box__bd">
+								<h4 class="weui-media-box__title nick_name"></h4>
+								<p class="weui-media-box__desc money"></p>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="weui-cells__title">设置输赢用户</div>
+				<div class="weui-cells">
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">用户ID</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="winLoseUserId" class="weui-input" type="text"
+								placeholder="请输入用户ID">
+						</div>
+					</div>
+					<div class="weui-cell weui-cell_select weui-cell_select-after">
+						<div class="weui-cell__hd">
+							<label for="" class="weui-label">设置输赢用户</label>
+						</div>
+						<div class="weui-cell__bd">
+							<select class="weui-select" name="winLose">
+								<option value="1">赢</option>
+								<option value="2">输</option>
+								<option value="3">删除</option>
+							</select>
+						</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">概率</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="winLoseRatio" class="weui-input" type="text"
+								placeholder="请输入输赢概率">
+						</div>
+					</div>
+				</div>
+				<a id="winloseSubmit" href="javascript:;" style="margin-top: 25px;"
+					class="weui-btn  weui-btn_primary">确定</a>
+			</div>
+
+		</div>
+
+		<div class="weui-tabbar">
+			<a href="#tab1" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="image/tabPay.png" alt="">
+				</div>
+				<p class="weui-tabbar__label">代理商明细</p>
+			</a> <a href="#tab2" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="image/tabStatics.png" alt="">
+				</div>
+				<p class="weui-tabbar__label">代理商设置</p>
+			</a> <a href="#tab3" class="weui-tabbar__item weui-bar__item--on">
+				<div class="weui-tabbar__icon">
+					<img src="image/tabFound.png" alt="">
+				</div>
+				<p class="weui-tabbar__label">开房明细</p>
+			</a> <a href="#tab4" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="image/tabFound.png" alt="">
+				</div>
+				<p class="weui-tabbar__label">用户明细</p>
+			</a> <a href="#tab5" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="image/tabFound.png" alt="">
+				</div>
+				<p class="weui-tabbar__label">输赢明细</p>
+			</a> <a href="#tab6" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="image/tabFound.png" alt="">
+				</div>
+				<p class="weui-tabbar__label">输赢设置</p>
+			</a>
+		</div>
+	</div>
+
+	<!-- 	<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script> -->
+	<!-- 	<script -->
+	<!-- 		src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script> -->
+	<!-- 	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> -->
+
+	<!-- 		<script src="3rd/jquery.min.js"></script> -->
+	<!-- 	<script src="3rd/jquery-weui.min.js"></script> -->
+	<!-- 	<script src="3rd/jweixin-1.0.0.js"></script> -->
+
+	<script src="https://cdn.nbcb.com.cn/3rd/jquery.min.js"></script>
+	<script src="https://cdn.nbcb.com.cn/3rd/jquery-weui.min.js"></script>
+	<script src="https://cdn.nbcb.com.cn/3rd/jweixin-1.0.0.js"></script>
+
+
+	<script src="js/util.js"></script>
+	<script src="js/super.js?time=889889666"></script>
+	<script src="js/jssdk.js"></script>
+</body>
+</html>

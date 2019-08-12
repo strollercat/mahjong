@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="winlose">
+
+
+	<select id="selectGameWinLoseByOpenid" resultType="com.nbcb.web.dao.entity.GameWinLose"
+		parameterType="java.lang.String">
+		select * from gm_win_lose where openid = #{openid}
+	</select>
+
+
+	<select id="selectGameWinLoses" resultType="com.nbcb.web.dao.entity.GameWinLose">
+		select * from
+		gm_win_lose
+	</select>
+
+
+	<select id="selectGameWinLosesByPage" resultType="com.nbcb.web.dao.entity.GameWinLose"
+		parameterType="java.util.HashMap">
+		 <![CDATA[  
+			select gm_win_lose.* ,wx_user.nickname,gm_user.score ,wx_user.headimgurl from gm_win_lose,wx_user,gm_user where gm_user.openid=gm_win_lose.openid and gm_user.openid=wx_user.openid order by gm_win_lose.id limit #{start},#{rows} 
+		 ]]>
+	</select>
+
+	<insert id="insertGameWinLose" parameterType="com.nbcb.web.dao.entity.GameWinLose">
+		 <![CDATA[  
+			insert into gm_win_lose(openid,winlose,ratio) values(#{openid},#{winlose},#{ratio})
+		 ]]>
+	</insert>
+
+
+	<delete id="deleteGameWinLoseByOpenid" parameterType="java.lang.String">
+		 delete from gm_win_lose where openid = #{openid}
+	</delete>
+	
+	
+	<update id="updateGameWinLoseByOpenid" parameterType = "com.nbcb.web.dao.entity.GameWinLose">
+		update gm_win_lose set ratio = #{ratio},winlose = #{winlose} where openid = #{openid}
+	</update>
+
+
+
+</mapper>  

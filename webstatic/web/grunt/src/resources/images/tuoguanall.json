@@ -1,0 +1,36 @@
+{"frames": [
+
+{
+	"filename": "jixu",
+	"frame": {"x":2,"y":260,"w":219,"h":83},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":219,"h":83},
+	"sourceSize": {"w":219,"h":85}
+},
+{
+	"filename": "jixu_press",
+	"frame": {"x":309,"y":2,"w":201,"h":77},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":4,"w":201,"h":77},
+	"sourceSize": {"w":219,"h":85}
+},
+{
+	"filename": "tuoguan",
+	"frame": {"x":2,"y":2,"w":305,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":305,"h":256},
+	"sourceSize": {"w":307,"h":258}
+}],
+"meta": {
+	"app": "http://www.texturepacker.com",
+	"version": "1.0",
+	"image": "tuoguanall.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":512},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a484936046936bc387294e7bfb463ba7$"
+}
+}

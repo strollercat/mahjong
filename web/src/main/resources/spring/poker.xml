@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+	
+	<bean id="colorSamePokerUnitCardsJudger" class="com.nbcb.poker.card.strategy.base.ColorSamePokerUnitCardsJudger">
+	</bean>
+	<bean id="numberSamePokerUnitCardsJudger" class="com.nbcb.poker.card.strategy.base.NumberSamePokerUnitCardsJudger">
+	</bean>
+	<bean id="sequencePokerUnitCardsJudger" class="com.nbcb.poker.card.strategy.base.SequencePokerUnitCardsJudger">
+	</bean>
+	
+	<bean id="colorSamePokerUnitCardsFinder" class="com.nbcb.poker.card.strategy.base.ColorSamePokerUnitCardsFinder">
+	</bean>
+	<bean id="numberSamePokerUnitCardsFinder" class="com.nbcb.poker.card.strategy.base.NumberSamePokerUnitCardsFinder">
+	</bean>
+	<bean id="sequencePokerUnitCardsFinder" class="com.nbcb.poker.card.strategy.base.SequencePokerUnitCardsFinder">
+	</bean>
+	
+
+
+
+</beans>

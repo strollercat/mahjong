@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+	<bean id="tiantaiMajiangChannel" class="com.nbcb.majiang.tiantai.TiantaiMajiangChannel">
+		<property name="majiangRule" ref="tiantaiMajiangRule" />
+		<property name="server" ref="gameServer" />
+	</bean>
+
+	<bean id="tiantaiMajiangRule" class="com.nbcb.majiang.rule.MajiangRule">
+		<property name="roomStopJudger" ref="jushuRoomStopJudger"></property>
+		<property name="actionExecutorMapping" ref="tiantaiMajiangActionExecutorMapping" />
+		<property name="actionCalculatorMapping" ref="tiantaiMajiangActionCalculatorMapping" />
+		<property name="actionNotify" ref="actionNotify" />
+	</bean>
+
+
+	<bean id="tiantaiMajiangAllocateActionExecutor"
+		class="com.nbcb.majiang.tiantai.TiantaiMajiangAllocateActionExecutor">
+	</bean>
+
+	<bean id="tiantaiMajiangCompleteActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangCompleteActionExecutor">
+		<property name="scoreComputer" ref="tiantaiMajiangScoreComputer"></property>
+	</bean>
+	<bean id="tiantaiMajiangScoreComputer" class="com.nbcb.majiang.tiantai.TiantaiMajiangScoreComputer">
+	</bean>
+
+
+	<bean id="tiantaiMajiangActionExecutorMapping" class="com.nbcb.core.rule.DefaultActionExecutorMapping">
+		<property name="actionExecutors">
+			<list>
+				<ref bean="emptyMajiangActionExecutor" />
+				<ref bean="tiantaiMajiangAllocateActionExecutor" />
+				<ref bean="majiangMoFrontActionExecutor" />
+				<ref bean="majiangMoBackActionExecutor" />
+				<ref bean="majiangMoFrontHuActionExecutor" />
+				<ref bean="majiangMoBackHuActionExecutor" />
+				<ref bean="majiangFangQiangHuActionExecutor" />
+				<ref bean="majiangQiangGangHuActionExecutor" />
+				<ref bean="majiangDaHuaActionExecutor" />
+				<ref bean="majiangDaNonHuaActionExecutor" />
+				<ref bean="majiangPengActionExecutor" />
+				<ref bean="majiangChiActionExecutor" />
+				<ref bean="majiangXianGangActionExecutor" />
+				<ref bean="majiangMingGangActionExecutor" />
+				<ref bean="majiangAnGangActionExecutor" />
+				<ref bean="majiangHuangPaiActionExecutor" />
+				<ref bean="tiantaiMajiangCompleteActionExecutor" />
+			</list>
+		</property>
+	</bean>
+
+
+
+
+
+
+
+
+
+	<bean id="tiantaiMajiangFangQiangHuActionJudger"
+		class="com.nbcb.majiang.rule.judger.MajiangFangQiangQiangGangHuActionJudger">
+		<property name="huStrategy" ref="tiantaiMajiangHuStrategy"></property>
+		<property name="fangQiang" value="true"></property>
+	</bean>
+	<bean id="tiantaiMajiangQiangGangHuActionJudger"
+		class="com.nbcb.majiang.rule.judger.MajiangFangQiangQiangGangHuActionJudger">
+		<property name="huStrategy" ref="tiantaiMajiangHuStrategy"></property>
+		<property name="fangQiang" value="false"></property>
+	</bean>
+	<bean id="tiantaiMajiangMoFrontHuActionJudger" class="com.nbcb.majiang.rule.judger.MajiangMoHuActionJudger">
+		<property name="huStrategy" ref="tiantaiMajiangHuStrategy"></property>
+		<property name="moFront" value="true"></property>
+	</bean>
+	<bean id="tiantaiMajiangMoBackHuActionJudger" class="com.nbcb.majiang.rule.judger.MajiangMoHuActionJudger">
+		<property name="huStrategy" ref="tiantaiMajiangHuStrategy"></property>
+		<property name="moFront" value="false"></property>
+	</bean>
+	<bean id="tiantaiMajiangHuStrategy" class="com.nbcb.majiang.tiantai.TiantaiMajiangHuStrategy">
+		<property name="nonThreeTwoMajiangHuFinders">
+			<list>
+				<ref bean="sibaidaMajiangHuFinder" />
+			</list>
+		</property>
+		<property name="listMjHuJudger">
+			<list>
+				<ref bean="huaHuJudger" />
+				<ref bean="paiHuJudger" />
+
+				<ref bean="qingyiseHuJudger" />
+				<ref bean="hunyiseHuJudger" />
+				<ref bean="duiduiHuJudger" />
+
+				<ref bean="paodaHuJudger" />
+
+
+				<ref bean="zfbHuJudger" />
+				<ref bean="dnxbHuJudger" />
+
+				<ref bean="dandiaoHuJudger" />
+				<ref bean="duidaoHuJudger" />
+				<ref bean="kadaoHuJudger" />
+
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="tiantaiMajiangDaNonHuaActionCalculator"
+		class="com.nbcb.majiang.rule.calculator.MajiangDaNonHuaActionCalculator">
+		<property name="mingGangActionJudger" ref="mingGangActionJudger" />
+		<property name="pengActionJudger" ref="pengActionJudger" />
+		<property name="fangQiangHuActionJudger" ref="tiantaiMajiangFangQiangHuActionJudger" />
+	</bean>
+	<bean id="tiantaiMajiangMoFrontActionCalculator"
+		class="com.nbcb.majiang.rule.calculator.MajiangMoFrontActionCalculator">
+		<property name="huActionJudger" ref="tiantaiMajiangMoFrontHuActionJudger" />
+		<property name="anGangActionJudger" ref="anGangActionJudger" />
+		<property name="xianGangActionJudger" ref="xianGangActionJudger" />
+	</bean>
+	<bean id="tiantaiMajiangMoBackActionCalculator"
+		class="com.nbcb.majiang.rule.calculator.MajiangMoBackActionCalculator">
+		<property name="anGangActionJudger" ref="anGangActionJudger" />
+		<property name="xianGangActionJudger" ref="xianGangActionJudger" />
+		<property name="huActionJudger" ref="tiantaiMajiangMoBackHuActionJudger" />
+	</bean>
+	<bean id="tiantaiMajiangXianGangActionCalculator"
+		class="com.nbcb.majiang.rule.calculator.MajiangXianGangActionCalculator">
+		<property name="qiangGangHu" ref="tiantaiMajiangQiangGangHuActionJudger" />
+	</bean>
+
+
+
+	<bean id="tiantaiMajiangActionCalculatorMapping" class="com.nbcb.core.rule.DefaultActionCalculatorMapping">
+		<property name="actionCalculators">
+			<list>
+				<ref bean="emptyMajiangActionCalculator" />
+				<ref bean="majiangAllocateActionCalculator" />
+				<ref bean="tiantaiMajiangMoFrontActionCalculator" />
+				<ref bean="tiantaiMajiangMoBackActionCalculator" />
+				<ref bean="majiangMoFrontHuActionCalculator" />
+				<ref bean="majiangMoBackHuActionCalculator" />
+				<ref bean="majiangFangQiangHuActionCalculator" />
+				<ref bean="majiangQiangGangHuActionCalculator" />
+				<ref bean="majiangDaHuaActionCalculator" />
+				<ref bean="tiantaiMajiangDaNonHuaActionCalculator" />
+				<ref bean="majiangPengActionCalculator" />
+				<ref bean="majiangChiActionCalculator" />
+				<ref bean="tiantaiMajiangXianGangActionCalculator" />
+				<ref bean="majiangMingGangActionCalculator" />
+				<ref bean="majiangAnGangActionCalculator" />
+				<ref bean="majiangHuangPaiActionCalculator" />
+				<ref bean="majiangCompleteActionCalculator" />
+			</list>
+		</property>
+	</bean>
+
+
+
+</beans>

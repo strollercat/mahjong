@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+	<bean id="emptyMajiangActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangEmptyActionExecutor">
+	</bean>
+
+	<bean id="majiangAllocateActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangAllocateActionExecutor"></bean>
+
+	<bean id="majiangAllocateWithHuaActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangAllocateWithHuaActionExecutor">
+	</bean>
+	<bean id="majiangMoFrontActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangMoFrontActionExecutor">
+	</bean>
+	<bean id="majiangMoBackActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangMoBackActionExecutor">
+	</bean>
+	<bean id="majiangMoFrontHuActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangMoFrontHuActionExecutor">
+	</bean>
+	<bean id="majiangMoBackHuActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangMoBackHuActionExecutor">
+	</bean>
+	<bean id="majiangFangQiangHuActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangFangQiangHuActionExecutor">
+	</bean>
+	<bean id="majiangQiangGangHuActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangQiangGangHuActionExecutor">
+	</bean>
+	<bean id="majiangDaHuaActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangDaHuaActionExecutor">
+	</bean>
+	<bean id="majiangDaNonHuaActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangDaNonHuaActionExecutor">
+	</bean>
+	<bean id="majiangPengActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangPengActionExecutor">
+	</bean>
+	<bean id="majiangChiActionExecutor" class="com.nbcb.majiang.rule.executor.MajiangChiActionExecutor">
+	</bean>
+	<bean id="majiangXianGangActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangXianGangActionExecutor">
+	</bean>
+	<bean id="majiangMingGangActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangMingGangActionExecutor">
+	</bean>
+	<bean id="majiangAnGangActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangAnGangActionExecutor">
+	</bean>
+	<bean id="majiangCompleteActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangCompleteActionExecutor">
+	</bean>
+	<bean id="majiangHuangPaiActionExecutor"
+		class="com.nbcb.majiang.rule.executor.MajiangHuangPaiActionExecutor">
+	</bean>
+
+
+	<bean id="defaultActionExecutorMapping" class="com.nbcb.core.rule.DefaultActionExecutorMapping">
+		<property name="actionExecutors">
+			<list>
+				<ref bean="emptyMajiangActionExecutor" />
+				<ref bean="majiangAllocateActionExecutor" />
+				<ref bean="majiangMoFrontActionExecutor" />
+				<ref bean="majiangMoBackActionExecutor" />
+				<ref bean="majiangMoFrontHuActionExecutor" />
+				<ref bean="majiangMoBackHuActionExecutor" />
+				<ref bean="majiangFangQiangHuActionExecutor" />
+				<ref bean="majiangQiangGangHuActionExecutor" />
+				<ref bean="majiangDaHuaActionExecutor" />
+				<ref bean="majiangDaNonHuaActionExecutor" />
+				<ref bean="majiangPengActionExecutor" />
+				<ref bean="majiangChiActionExecutor" />
+				<ref bean="majiangXianGangActionExecutor" />
+				<ref bean="majiangMingGangActionExecutor" />
+				<ref bean="majiangAnGangActionExecutor" />
+				<ref bean="majiangHuangPaiActionExecutor" />
+				<ref bean="majiangCompleteActionExecutor" />
+			</list>
+		</property>
+	</bean>
+
+
+
+
+<!-- 	<bean id="mapMajiangCompleteActionExecutor" -->
+<!-- 		class="com.nbcb.majiang.rule.executor.MajiangCompleteActionExecutor"> -->
+<!-- 		<property name="scoreComputer" ref="mapScoreComputer"> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="mapScoreComputer" class="com.nbcb.core.game.MapScoreComputer"> -->
+<!-- 		<property name="mapScoreComputer"> -->
+<!-- 			<map> -->
+<!-- 				<entry key="hangzhouMajiang"> -->
+<!-- 					<ref bean="hangzhouMajiangScoreComputer" /> -->
+<!-- 				</entry> -->
+<!-- 			</map> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+
+	<bean id="ningboMajiangDaHuaActionExecutor" class="com.nbcb.majiang.ningbo.NingboMajiangDaHuaActionExecutor">
+	</bean>
+
+
+</beans>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="gameServer" class="com.nbcb.core.server.DefaultServer">
+		<property name="mapChannel">
+			<map>
+				<entry key="ningboMajiang" value-ref="ningboMajiangChannel" />
+				<entry key="fenhuaMajiang" value-ref="fenhuaMajiangChannel" />
+				<entry key="tiantaiMajiang" value-ref="tiantaiMajiangChannel" />
+				<entry key="hangzhouMajiang" value-ref="hangzhouMajiangChannel" />
+				<entry key="hongzhongMajiang" value-ref="hongzhongMajiangChannel" />
+				<entry key="guangdongMajiang" value-ref="guangdongMajiangChannel" />
+				<entry key="threeWater" value-ref="threeWaterPokerChannle" />
+				<entry key="xiangshanMajiang" value-ref="xiangshanMajiangChannel" />
+			</map>
+		</property>
+		<property name="roomListeners">
+			<list>
+				<ref bean="webSocketNotifyRoomListener" />
+				<ref bean="printRoomListener" />
+				<ref bean="databaseRoomListener" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- room 监听器 -->
+	<bean id="printRoomListener" class="com.nbcb.core.room.PrintRoomListener">
+	</bean>
+	<bean id="webSocketNotifyRoomListener" class="com.nbcb.web.websocket.WebSocketNotifyRoomListener">
+		<property name="userOutputApi" ref="userOutputApi">
+		</property>
+	</bean>
+	<bean id="databaseRoomListener" class="com.nbcb.web.db.DatabaseRoomListener">
+		<property name="roomDao" ref="roomDao">
+		</property>
+		<property name="gameUserRoomDao" ref="gameUserRoomDao">
+		</property>
+		<property name="taskExecutor" ref="taskExecutor">
+		</property>
+		<property name="roomStopJudger" ref="mapRoomStopJudger">
+		</property>
+	</bean>
+
+
+
+	<bean id="playerStatQuery" class="com.nbcb.core.server.DefaultPlayerStatQuery">
+		<property name="server" ref="gameServer"></property>
+	</bean>
+
+	<bean id="mapRoomStopJudger" class="com.nbcb.core.room.MapRoomStopJudger">
+		<property name="juShuRoomStopJudger" ref="jushuRoomStopJudger"></property>
+		<property name="mapRoomStopjudger">
+			<map>
+				<entry key="fenhuaMajiang" value-ref="fenhuaMajiangRoomStopJudger" />
+			</map>
+		</property>
+	</bean>
+	<bean id="jushuRoomStopJudger" class="com.nbcb.core.room.JushuRoomStopJudger">
+	</bean>
+
+
+
+
+	<bean id="emptyActionExecutor" class="com.nbcb.core.rule.EmptyActionExecutor">
+	</bean>
+	<bean id="emptyActionCalculator" class="com.nbcb.core.rule.EmptyActionCalculator">
+	</bean>
+	<bean id="emptyActionJudger" class="com.nbcb.core.rule.EmptyActionJudger">
+	</bean>
+
+
+
+</beans>

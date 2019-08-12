@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="gameServer" class="com.nbcb.core.server.DefaultServer">
+		<property name="mapChannel">
+			<map>
+				<entry key="ningboMajiang" value-ref="ningboMajiangChannel" />
+			</map>
+		</property>
+		<property name="roomListeners">
+			<list>
+				<ref bean="webSocketNotifyRoomListener" />
+				<ref bean="printRoomListener" />
+				<!-- <ref bean="databaseRoomListener" /> -->
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="playerStatQuery" class="com.nbcb.core.server.DefaultPlayerStatQuery">
+		<property name="server" ref="gameServer"></property>
+	</bean>
+	<bean id="ningboMajiangChannel" class="com.nbcb.majiang.ningbo.NingboMajiangChannel">
+		<property name="server" ref="gameServer">
+		</property>
+		<property name="fourBaidaRule" ref="ningbo4baidaMajiangRule">
+		</property>
+		<property name="sevenBaidaRule" ref="ningbo7baidaMajiangRule">
+		</property>
+		<property name="threeBaidaRule" ref="ningbo3baidaMajiangRule">
+		</property>
+	</bean>
+
+
+
+
+
+
+	<!-- room 监听器 -->
+	<bean id="printRoomListener" class="com.nbcb.core.room.PrintRoomListener">
+	</bean>
+	<bean id="webSocketNotifyRoomListener" class="com.nbcb.web.websocket.WebSocketNotifyRoomListener">
+		<property name="userOutputApi" ref="userOutputApi">
+		</property>
+	</bean>
+	<!-- <bean id="databaseRoomListener" class="com.nbcb.web.db.DatabaseRoomListener"> -->
+	<!-- <property name="roomDao" ref="roomDao"> -->
+	<!-- </property> -->
+	<!-- <property name="gameUserDao" ref="gameUserDao"> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<bean id="majiangAllCardsOfFull" class="com.nbcb.majiang.card.MajiangAllCards"
+		init-method="start" scope="prototype">
+		<property name="lessColor">
+			<value>false</value>
+		</property>
+	</bean>
+
+
+	<bean id="majiangAllCardsOfLessColor" class="com.nbcb.majiang.card.MajiangAllCards"
+		init-method="start" scope="prototype">
+		<property name="lessColor">
+			<value>true</value>
+		</property>
+	</bean>
+
+
+
+	<bean id="ningboMajiangRule" class="com.nbcb.majiang.rule.MajiangRule">
+		<property name="actionExecutorMapping" ref="defaultActionExecutorMapping" />
+		<property name="actionCalculatorMapping" ref="defaultActionCalculatorMapping" />
+		<property name="actionNotify" ref="actionNotify" />
+	</bean>
+
+
+	<!-- action 监听器 -->
+	<bean id="actionNotify" class="com.nbcb.core.action.ActionNotifySupport">
+		<property name="actionListeners">
+			<list>
+				<ref bean="consoleDisplayActionListener" />
+				<ref bean="majiangCardValidateActionListener" />
+				<ref bean="webSocketNotifyActionListener" />
+				<!-- <ref bean="databaseActionListener" /> -->
+			</list>
+		</property>
+	</bean>
+	<bean id="consoleDisplayActionListener"
+		class="com.nbcb.majiang.actionlistener.ConsoleDisplayActionListener">
+	</bean>
+	<bean id="majiangCardValidateActionListener"
+		class="com.nbcb.majiang.actionlistener.MajiangCardValidateActionListener">
+	</bean>
+	<bean id="webSocketNotifyActionListener" class="com.nbcb.web.websocket.WebSocketNotifyActionListener">
+		<property name="userOutputApi" ref="userOutputApi">
+		</property>
+	</bean>
+	<bean id="userOutputApi" class="com.nbcb.web.service.impl.DefaultUserOutputApi">
+		<property name="responseFilter" ref="responseFilter">
+		</property>
+		<property name="clientPusher" ref="clientPusher"></property>
+		<property name="server" ref="gameServer"></property>
+		<property name="playerStatQuery" ref="playerStatQuery"></property>
+	</bean>
+	<bean id="clientPusher" class="com.nbcb.web.service.impl.ConsolePrintClientPusher">
+	</bean>
+
+	<!-- <bean id="databaseActionListener" class="com.nbcb.web.db.DatabaseActionListener"> -->
+	<!-- <property name="gameDao" ref="gameDao"> -->
+	<!-- </property> -->
+	<!-- <property name="moneyStrategyService" ref="moneyStrategyService"> -->
+	<!-- </property> -->
+	<!-- <property name="gameUserDao" ref="gameUserDao"> -->
+	<!-- </property> -->
+	<!-- <property name="gameMoneyDetailDao" ref="gameMoneyDetailDao"> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+
+
+
+
+	<bean id="majiangThreeActiveBao" class="com.nbcb.majiang.rule.judger.hu.MajiangThreeActiveBao">
+	</bean>
+
+	<bean id="majiangThreePassiveBao" class="com.nbcb.majiang.rule.judger.hu.MajiangThreePassiveBao">
+		<property name="majiangThreeActiveBao" ref="majiangThreeActiveBao">
+		</property>
+	</bean>
+
+	<bean id="majiangThreeBao"
+		class="com.nbcb.majiang.rule.judger.hu.MajiangThreeBaoCalculator">
+		<property name="majiangThreeActiveBaoCalculator" ref="majiangThreeActiveBao">
+		</property>
+		<property name="majiangThreePassiveBaoCalculator" ref="majiangThreePassiveBao">
+		</property>
+	</bean>
+
+	<bean id="responseFilter" class="com.nbcb.web.service.impl.DevDefaultResponseFilter">
+<!-- 		<property name="appid" value="${appid}"></property> -->
+<!-- 		<property name="weixinUserDao" ref="weixinUserDao"></property> -->
+<!-- 		<property name="gameUserDao" ref="gameUserDao"></property> -->
+	</bean>
+
+
+
+</beans>

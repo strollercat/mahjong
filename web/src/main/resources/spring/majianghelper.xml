@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- hu finder -->
+	<bean id="sevenDuiziMajiangHuFinder"
+		class="com.nbcb.majiang.rule.judger.hu.finder.SevenDuiziMajiangHuFinder">
+	</bean>
+	<bean id="dadahuMajiangHuFinder"
+		class="com.nbcb.majiang.rule.judger.hu.finder.DadahuMajiangHuFinder">
+	</bean>
+	<bean id="allZiMajiangHuFinder"
+		class="com.nbcb.majiang.rule.judger.hu.finder.AllziMajiangHuFinder">
+	</bean>
+	<bean id="sibaidaMajiangHuFinder"
+		class="com.nbcb.majiang.rule.judger.hu.finder.SibaidaMajiangHuFinder">
+	</bean>
+
+
+
+	<!-- hu judger -->
+	<bean id="huaHuJudger" class="com.nbcb.majiang.rule.judger.hu.type.MajiangHuaHuJudger">
+	</bean>
+
+	<bean id="paiHuJudger" class="com.nbcb.majiang.rule.judger.hu.type.MajiangPaiHuJudger">
+	</bean>
+
+	<bean id="fengyiseHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangFengyiseHuJudger">
+	</bean>
+	<bean id="qingyiseHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangQingyiseHuJudger">
+	</bean>
+	<bean id="hunyiseHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangHunyiseHuJudger">
+	</bean>
+	<bean id="duiduiHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangDuiduiHuJudger">
+	</bean>
+
+
+	<bean id="paodaHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangPaodeHuJudger">
+	</bean>
+	<bean id="huandaHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangHuandaHuJudger">
+	</bean>
+	<bean id="wudaHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangWudaHuJudger">
+	</bean>
+	<bean id="sanbaidaHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangSanbaidaHuJudger">
+	</bean>
+	<bean id="sibaidaHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangSibaidaHuJudger">
+	</bean>
+
+
+
+
+
+	<bean id="menqingHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangMenqingHuJudger">
+	</bean>
+	<bean id="dadiaoHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangDadiaoHuJudger">
+	</bean>
+
+
+	<bean id="zfbHuJudger" class="com.nbcb.majiang.rule.judger.hu.type.MajiangZfbHuJudger">
+	</bean>
+	<bean id="dnxbHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangDnxbHuJudger">
+	</bean>
+
+	<bean id="dandiaoHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangDandiaoHuJudger">
+	</bean>
+	<bean id="duidaoHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangDuidaoHuJudger">
+	</bean>
+	<bean id="kadaoHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangKadaoHuJudger">
+	</bean>
+
+
+
+
+	<bean id="zimoHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangZimoHuJudger">
+	</bean>
+	<bean id="gangtoukaihuaHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangGangtoukaihuaHuJudger">
+	</bean>
+	<bean id="haidilaoyueHuJudger" class="com.nbcb.majiang.rule.judger.hu.type.MajiangHaidilaoyueHuJudger">
+	</bean>
+
+	<bean id="gangHuJudger"
+		class="com.nbcb.majiang.rule.judger.hu.type.MajiangGangHuJudger">
+	</bean>
+
+
+
+	<!-- majiang helper -->
+	<bean id="chiTanShuCalculator" class="com.nbcb.majiang.helper.ChiTanShuCalculator">
+	</bean>
+
+	<bean id="pengGangTanShuCalculator" class="com.nbcb.majiang.helper.PengGangTanShuCalculator">
+	</bean>
+
+	<bean id="allTanShuCalculator" class="com.nbcb.majiang.helper.AllTanShuCalculator">
+		<property name="chiTanShuCalculator" ref="chiTanShuCalculator"></property>
+		<property name="pengGangTanShuCalculator" ref="pengGangTanShuCalculator"></property>
+	</bean>
+
+	<bean id="majiangGangHelper" class="com.nbcb.majiang.helper.DefaultMajiangGangHelper">
+	</bean>
+
+	<bean id="fileWinLosePlayerStrategy" class="com.nbcb.core.helper.MemoryWinLosePlayerStrategy">
+	<property name="needWinPlayers" value="${winplayers}"></property>
+	<property name="needLosePlayers" value="${loseplayers}"></property>
+	</bean>
+
+	<bean id="dbWinLosePlayerStrategy" class="com.nbcb.web.service.impl.DbWinLosePlayerStrategy" init-method="start">
+		<property name="gameWinLoseDao" ref="gameWinLoseDao"></property>
+	</bean>
+	
+	<bean id="intWinLosePlayerStrategy" class="com.nbcb.web.service.impl.IntelligentWinLosePlayerStrategy">
+		<property name="gameUserDao" ref="gameUserDao"></property>
+	</bean>
+	
+	
+	<bean id="winLosePlayerStrategy" class="com.nbcb.web.service.impl.ChooseWinLosePlayerStrategy" init-method="start" >
+		<property name="gameDictDao" ref="gameDictDao"></property>
+		<property name="mapStrategy">
+			<map>
+				<entry key="int" value-ref="intWinLosePlayerStrategy" />
+				<entry key="db" value-ref="dbWinLosePlayerStrategy" />
+				<entry key="file" value-ref="fileWinLosePlayerStrategy" />
+			</map>
+		</property>
+	</bean>
+
+
+
+</beans>

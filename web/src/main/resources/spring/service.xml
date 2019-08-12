@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- weixin api -->
+	<bean id="httpClientTransport" class="com.nbcb.weixinapi.transport.HttpClientTransport">
+	</bean>
+	<bean id="weixinApiSupport" class="com.nbcb.weixinapi.impl.WeixinApiSupportImpl">
+		<property name="transport" ref="httpClientTransport"></property>
+		<property name="encode" value="utf-8"></property>
+	</bean>
+	<bean id="weixinApiMenu" class="com.nbcb.weixinapi.impl.WeixinApiMenuImpl">
+		<property name="weixinApiSupport" ref="weixinApiSupport"></property>
+	</bean>
+	<bean id="weixinApiMedia" class="com.nbcb.weixinapi.impl.WeixinApiMediaImpl">
+		<property name="transport" ref="httpClientTransport"></property>
+		<property name="encode" value="utf-8"></property>
+		<property name="weixinApiSupport" ref="weixinApiSupport"></property>
+	</bean>
+	<bean id="weixinApiBase" class="com.nbcb.weixinapi.impl.WeixinApiBaseImpl">
+		<property name="weixinApiSupport" ref="weixinApiSupport"></property>
+	</bean>
+	<bean id="weixinApiOAuth2" class="com.nbcb.weixinapi.impl.WeixinApiOAuth2Impl">
+		<property name="weixinApiSupport" ref="weixinApiSupport"></property>
+	</bean>
+	<bean id="weixinCachedApiBase" class="com.nbcb.weixinapi.impl.WeixinCachedApiBaseImpl"
+		init-method="start">
+		<property name="weixinAccountDao" ref="weixinAccountDao"></property>
+		<property name="transactionTemplate" ref="transactionTemplate"></property>
+		<property name="weixinApiBase" ref="weixinApiBase"></property>
+	</bean>
+	<bean id="weixinApiPush" class="com.nbcb.weixinapi.impl.WeixinApiPushImpl">
+		<property name="weixinApiSupport" ref="weixinApiSupport"></property>
+	</bean>
+	<bean id="weixinApiTemplate" class="com.nbcb.weixinapi.impl.WeixinApiTemplateImpl">
+		<property name="weixinApiSupport" ref="weixinApiSupport"></property>
+	</bean>
+	<bean id="weixinApiReply" class="com.nbcb.weixinapi.impl.WeixinApiReplyImpl">
+	</bean>
+	<bean id="weixinApiUser" class="com.nbcb.weixinapi.impl.WeixinApiUserImpl">
+		<property name="weixinApiSupport" ref="weixinApiSupport"></property>
+	</bean>
+	
+	<bean id="weixinApiPaySign" class="com.nbcb.weixinapi.impl.WeixinApiPaySignImpl">
+		<property name="weixinCachedApiBase" ref="weixinCachedApiBase"></property>
+	</bean>
+	<bean id="weixinApiPaySupport" class="com.nbcb.weixinapi.impl.WeixinApiPaySupportImpl">
+		<property name="transport" ref="httpClientTransport"></property>
+		<property name="weixinApiPaySign" ref="weixinApiPaySign"></property>
+		<property name="encode" value="utf-8"></property>
+	</bean>
+	<bean id="weixinApiPay" class="com.nbcb.weixinapi.impl.WeixinApiPayImpl">
+		<property name="weixinApiPaySupport" ref="weixinApiPaySupport"></property>
+		<property name="weixinApiPaySign" ref="weixinApiPaySign"></property>
+	</bean>
+
+
+	<!-- 订单号生成 -->
+	<bean id="orderNumberGenerator"
+		class="com.nbcb.web.service.impl.MilleSecondRandomOrderNumberGenerator">
+	</bean>
+
+	<bean id="orderNotifyService" class="com.nbcb.web.service.impl.OrderNotifyServiceImpl">
+		<property name="gameOrderDao" ref="gameOrderDao"></property>
+		<property name="gameMoneyDetailDao" ref="gameMoneyDetailDao"></property>
+		<property name="gameUserDao" ref="gameUserDao"></property>
+		<property name="templateId" value="${templateId}"></property>
+		<property name="appid" value="${appid}"></property>
+		<property name="weixinApiTemplate" ref="weixinApiTemplate"></property>
+		<property name="weixinCachedApiBase" ref="weixinCachedApiBase"></property>
+		<property name="adminService" ref="adminService"></property>
+		<property name="weixinUserService" ref="weixinUserService"></property>
+	</bean>
+
+	<!-- web socket user manager -->
+	<bean id="onlineUserRegistry" class="com.nbcb.web.service.impl.DefaultOnlineUserRegistry">
+	</bean>
+
+	<bean id="userActionApi" class="com.nbcb.web.service.impl.DefaultUserActionApi">
+		<property name="server" ref="gameServer"></property>
+		<property name="playerStatQuery" ref="playerStatQuery"></property>
+		<property name="clientPusher" ref="clientPusher"></property>
+		<property name="onlineUserRegistry" ref="onlineUserRegistry"></property>
+	</bean>
+	<bean id="requestHandler" class="com.nbcb.web.service.impl.DefaultRequestHandler">
+		<property name="userActionApi" ref="userActionApi"></property>
+	</bean>
+	<bean id="environmentService" class="com.nbcb.web.service.impl.EnvironmentServiceImpl">
+		<property name="appid" value="${appid}"></property>
+		<property name="domain" value="${domain}"></property>
+		<property name="appcontext" value="${appcontext}"></property>
+		<property name="weixinApiOAuth2" ref="weixinApiOAuth2"></property>
+		<property name="weixinLoginService" ref="weixinLoginService"></property>
+	</bean>
+	<bean id="jsSdkService" class="com.nbcb.web.service.impl.JsSdkServiceImpl">
+		<property name="appid" value="${appid}"></property>
+		<property name="weixinCachedApiBase" ref="weixinCachedApiBase"></property>
+	</bean>
+	<bean id="weixinValidateService" class="com.nbcb.web.service.impl.WeixinValidateServiceImpl">
+	</bean>
+	<bean id="moneyStrategyService" class="com.nbcb.web.service.impl.MoneyStrategyServiceImpl">
+		<property name="gameUserDao" ref="gameUserDao"></property>
+	</bean>
+
+	<bean id="gameWeixinHandle" class="com.nbcb.web.handle.GameWeixinHandle">
+		<property name="weixinCachedApiBase" ref="weixinCachedApiBase"></property>
+		<property name="weixinApiPush" ref="weixinApiPush"></property>
+		<property name="weixinApiReply" ref="weixinApiReply"></property>
+		<property name="weixinApiOAuth2" ref="weixinApiOAuth2"></property>
+		<property name="weixinApiMedia" ref="weixinApiMedia"></property>
+		<property name="weixinApiMenu" ref="weixinApiMenu"></property>
+		<property name="weixinApiUser" ref="weixinApiUser"></property>
+		<property name="adminService" ref="adminService"></property>
+		<property name="gameStaticsService" ref="gameStaticsService"></property>
+		<property name="gameUserDao" ref="gameUserDao"></property>
+		<property name="weixinUserDao" ref="weixinUserDao"></property>
+	</bean>
+	
+	<bean id="userOutputApi" class="com.nbcb.web.service.impl.RouterUserOutputApi">
+		<property name="server" ref="gameServer"></property>
+		<property name="majiangUserOutputApi" ref="majiangUserOutputApi">
+		</property>
+		<property name="mapApi">
+			<map>
+				<entry key="threeWater" value-ref="threeWaterUserOutputApi" />
+				<entry key="majiang" value-ref="majiangUserOutputApi" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="majiangUserOutputApi" class="com.nbcb.web.service.impl.DefaultMajiangUserOutputApi">
+		<property name="responseFilter" ref="responseFilter">
+		</property>
+		<property name="clientPusher" ref="clientPusher"></property>
+		<property name="server" ref="gameServer"></property>
+		<property name="playerStatQuery" ref="playerStatQuery"></property>
+		<property name="gameActionDao" ref="gameActionDao">
+		</property>
+		<property name="taskExecutor" ref="taskExecutor">
+		</property>
+		<property name="messageListener" ref="messageListener">
+		</property>
+		<property name="locationService" ref="locationService">
+		</property>
+	</bean>
+	
+	<bean id="threeWaterUserOutputApi" class="com.nbcb.web.service.impl.ThreeWaterPokerUserOutputApi">
+		<property name="responseFilter" ref="responseFilter">
+		</property>
+		<property name="clientPusher" ref="clientPusher"></property>
+		<property name="server" ref="gameServer"></property>
+		<property name="playerStatQuery" ref="playerStatQuery"></property>
+		<property name="gameActionDao" ref="gameActionDao">
+		</property>
+		<property name="taskExecutor" ref="taskExecutor">
+		</property>
+		<property name="messageListener" ref="messageListener">
+		</property>
+		<property name="locationService" ref="locationService">
+		</property>
+	</bean>
+
+	<bean id="clientPusher" class="com.nbcb.web.service.impl.WebsocketClientPusher">
+		<property name="onlineUserRegistry" ref="onlineUserRegistry">
+		</property>
+	</bean>
+
+
+
+
+
+	<bean id="checkRoomGameService" class="com.nbcb.web.service.impl.DefaultCheckRoomGameService">
+		<property name="server" ref="gameServer">
+		</property>
+		<property name="roomTimeOut" value="1200">
+		</property>
+		<property name="gameTimeOut" value="7200">
+		</property>
+		<property name="roomDao" ref="roomDao">
+		</property>
+		<property name="gameDao" ref="gameDao">
+		</property>
+	</bean>
+
+	<bean id="weixinUserService" class="com.nbcb.web.service.impl.MemoryWeixinUserService">
+		<property name="appid" value="${appid}"></property>
+		<property name="weixinUserDao" ref="weixinUserDao">
+		</property>
+		<property name="totolSize" value="10000">
+		</property>
+		<property name="timeOut" value="3600">
+		</property>
+	</bean>
+
+
+	<bean id="roomRecordService" class="com.nbcb.web.service.impl.DefaultRoomRecordService">
+		<property name="gameUserRoomDao" ref="gameUserRoomDao">
+		</property>
+		<property name="roomDao" ref="roomDao">
+		</property>
+		<property name="gameDao" ref="gameDao">
+		</property>
+		<property name="gameActionDao" ref="gameActionDao">
+		</property>
+		<property name="weixinUserSerivce" ref="weixinUserService"></property>
+	</bean>
+
+	<bean id="gameUserIdService" class="com.nbcb.web.service.impl.DefaultGameUserIdService">
+	</bean>
+
+	<bean id="locationService" class="com.nbcb.core.user.DefaultLocationService">
+	</bean>
+
+
+	<bean id="playerManagedStrategyService" class="com.nbcb.majiang.timer.PlayerManagedStrategyService">
+		<property name="server" ref="gameServer"></property>
+		<property name="clientPusher" ref="clientPusher"></property>
+		<property name="timeOut" value="120000"></property>
+		<property name="userActionApi" ref="userActionApi"></property>
+	</bean>
+
+	<!-- spring thread pool executor -->
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="1" />
+		<property name="keepAliveSeconds" value="200" />
+		<property name="maxPoolSize" value="1" />
+		<property name="queueCapacity" value="20" />
+		<property name="rejectedExecutionHandler">
+			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+		</property>
+	</bean>
+
+	<bean id="messageListener" class="com.nbcb.web.websocket.WebSocketMessageListener">
+		<property name="clientPusher" ref="clientPusher"></property>
+		<property name="weixinUserService" ref="weixinUserService"></property>
+	</bean>
+
+
+	<bean id="adminService" class="com.nbcb.web.service.impl.AdminServiceImpl">
+		<property name="administrators" value="${admins}"></property>
+		<property name="superAdmin" value="${superadmin}"></property>
+	</bean>
+
+	<bean id="gameStaticsService" class="com.nbcb.web.service.impl.DefaultGameStaticsService">
+		<property name="roomDao" ref="roomDao"></property>
+		<property name="gameMoneyDetailDao" ref="gameMoneyDetailDao"></property>
+		<property name="gameOrderDao" ref="gameOrderDao"></property>
+	</bean>
+	
+	
+	<bean id="roomDaoEntityTranslateService" class="com.nbcb.web.service.impl.DefaultRoomDaoEntityTranslateService">
+		<property name="weixinUserService" ref="weixinUserService"></property>
+	</bean>
+
+
+	<beans profile="default">
+		<bean id="weixinLoginService" class="com.nbcb.web.service.impl.DevWeixinLoginServiceImpl">
+			<property name="weixinUserDao" ref="weixinUserDao"></property>
+			<property name="weixinApiOAuth2" ref="weixinApiOAuth2"></property>
+			<property name="onlineUserRegistry" ref="onlineUserRegistry"></property>
+			<property name="appid" value="${appid}"></property>
+			<property name="weixinCachedApiBase" ref="weixinCachedApiBase"></property>
+			<property name="gameUserDao" ref="gameUserDao"></property>
+			<property name="moneyStrategyService" ref="moneyStrategyService"></property>
+			<property name="weixinUserService" ref="weixinUserService"></property>
+		</bean>
+		<bean id="responseFilter" class="com.nbcb.web.service.impl.DevDefaultResponseFilter">
+			<property name="gameUserDao" ref="gameUserDao"></property>
+			<property name="weixinUserService" ref="weixinUserService"></property>
+		</bean>
+	</beans>
+	<beans profile="test">
+		<bean id="weixinLoginService" class="com.nbcb.web.service.impl.WeixinLoginServiceImpl">
+			<property name="onlineUserRegistry" ref="onlineUserRegistry"></property>
+			<property name="weixinApiOAuth2" ref="weixinApiOAuth2"></property>
+			<property name="weixinUserDao" ref="weixinUserDao"></property>
+			<property name="appid" value="${appid}"></property>
+			<property name="weixinCachedApiBase" ref="weixinCachedApiBase"></property>
+			<property name="gameUserDao" ref="gameUserDao"></property>
+			<property name="moneyStrategyService" ref="moneyStrategyService"></property>
+			<property name="weixinUserService" ref="weixinUserService"></property>
+		</bean>
+		<bean id="responseFilter" class="com.nbcb.web.service.impl.DefaultResponseFilter">
+			<property name="gameUserDao" ref="gameUserDao"></property>
+			<property name="weixinUserService" ref="weixinUserService"></property>
+		</bean>
+	</beans>
+	<beans profile="prod">
+		<bean id="weixinLoginService" class="com.nbcb.web.service.impl.WeixinLoginServiceImpl">
+			<property name="onlineUserRegistry" ref="onlineUserRegistry"></property>
+			<property name="weixinUserDao" ref="weixinUserDao"></property>
+			<property name="weixinApiOAuth2" ref="weixinApiOAuth2"></property>
+			<property name="appid" value="${appid}"></property>
+			<property name="weixinCachedApiBase" ref="weixinCachedApiBase"></property>
+			<property name="gameUserDao" ref="gameUserDao"></property>
+			<property name="moneyStrategyService" ref="moneyStrategyService"></property>
+			<property name="weixinUserService" ref="weixinUserService"></property>
+		</bean>
+		<bean id="responseFilter" class="com.nbcb.web.service.impl.DefaultResponseFilter">
+			<property name="gameUserDao" ref="gameUserDao"></property>
+			<property name="weixinUserService" ref="weixinUserService"></property>
+		</bean>
+	</beans>
+
+
+
+
+</beans>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+			http://www.springframework.org/schema/mvc 
+			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+			http://www.springframework.org/schema/task 
+       		http://www.springframework.org/schema/task/spring-task.xsd
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<import resource="room.xml" />
+	<import resource="majiang.xml" />
+	<import resource="service.xml" />
+	<import resource="dao.xml" />
+	<import resource="majiangexecutor.xml" />
+	<import resource="majiangcalculator.xml" />
+	<import resource="majianghelper.xml" />
+	<import resource="ningbomajiang4baida.xml" />
+	<import resource="ningbomajiang3baida.xml" />
+	<import resource="ningbomajiang7baida.xml" />
+	<import resource="fenhuamajiang.xml" />
+	<import resource="tiantaimajiang.xml" />
+	<import resource="hangzhoumajiang.xml" />
+	<import resource="hongzhongmajiang.xml" />
+	<import resource="guangdonggmajiang.xml" />
+	<import resource="xiangshanmajiang.xml" />
+	<import resource="db.xml" />
+	<import resource="other.xml" />
+	<import resource="poker.xml" />
+	<import resource="threewaterpoker.xml" />
+
+
+	<task:scheduled-tasks>
+		<task:scheduled ref="checkRoomGameService" method="service"
+			cron="0/30 * * * * ?" />
+		<task:scheduled ref="weixinUserService" method="service"
+			cron="0/30 * * * * ?" />
+		<task:scheduled ref="playerManagedStrategyService" method="service"
+			cron="0/5 * * * * ?" />
+	</task:scheduled-tasks>
+
+	<!-- org.springframework.beans.factory.config.PropertyPlaceholderConfigurer -->
+	<beans profile="default">
+		<bean id="propertyConfigurer"
+			class="com.nbcb.web.spring.extend.CustomizedPropertyConfigurer">
+			<property name="location">
+				<value>classpath:config/dev.property</value>
+			</property>
+		</bean>
+	</beans>
+	<beans profile="test">
+		<bean id="propertyConfigurer"
+			class="com.nbcb.web.spring.extend.CustomizedPropertyConfigurer">
+			<property name="location">
+				<value>classpath:config/test.property</value>
+			</property>
+		</bean>
+	</beans>
+	<beans profile="prod">
+		<bean id="propertyConfigurer"
+			class="com.nbcb.web.spring.extend.CustomizedPropertyConfigurer">
+			<property name="location">
+				<value>classpath:config/prod.property</value>
+			</property>
+		</bean>
+	</beans>
+</beans>

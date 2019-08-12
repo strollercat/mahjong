@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<title>麻将馆管理员</title>
+
+
+<!-- 	<link rel="stylesheet" href="3rd/weui.min.css"> -->
+<!-- 	<link rel="stylesheet" href="3rd/jquery-weui.min.css"> -->
+
+<!-- <link rel="stylesheet" -->
+<!-- 	href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css"> -->
+<!-- <link rel="stylesheet" -->
+<!-- 	href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css"> -->
+	
+<link rel="stylesheet"
+	href="https://cdn.nbcb.com.cn/3rd/weui.min.css">
+<link rel="stylesheet"
+	href="https://cdn.nbcb.com.cn/3rd/jquery-weui.min.css">
+<style>
+html,body {
+	height: 100%;
+	background-color: #f8f8f8;
+}
+</style>
+</head>
+<body ontouchstart>
+	<div class="weui-tab">
+		<div class="weui-tab__bd">
+
+			<div id="tab2" class="weui-tab__bd-item   weui-tab__bd-item--active">
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__bd">
+						<a href="javascript:void(0);"
+							class="weui-media-box weui-media-box_appmsg">
+							<div class="weui-media-box__hd">
+								<img class="weui-media-box__thumb head_image" src="">
+							</div>
+							<div class="weui-media-box__bd">
+								<h4 class="weui-media-box__title nick_name"></h4>
+								<p class="weui-media-box__desc money"></p>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="weui-cells">
+					<div class="weui-cells_title">总开房钻石数查询</div>
+					<div class="weui-cell">
+						<div class="weui-cell__bd">
+							<p>总开房数</p>
+						</div>
+						<div id="totalRoom2" class="weui-cell__ft">0</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__bd">
+							<p>总消耗钻石数</p>
+						</div>
+						<div id="totalMoney2" class="weui-cell__ft">0</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__bd">
+							<p>总购买钻石金额</p>
+						</div>
+						<div id="totalPay2" class="weui-cell__ft">0</div>
+					</div>
+					<div class="weui-cell weui-cell_select weui-cell_select-after">
+						<div class="weui-cell__hd">
+							<label for="" class="weui-label">日期</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input type="text"  id="queryDate2"/>
+						</div>
+					</div>
+					
+				</div>
+				<a id="managerQuery" href="javascript:;" style="margin-top: 25px;"
+					class="weui-btn  weui-btn_primary">查询</a>
+			</div>
+
+
+			<div id="tab3" class="weui-tab__bd-item ">
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__bd">
+						<a href="javascript:void(0);"
+							class="weui-media-box weui-media-box_appmsg">
+							<div class="weui-media-box__hd">
+								<img class="weui-media-box__thumb head_image" src="">
+							</div>
+							<div class="weui-media-box__bd">
+								<h4 class="weui-media-box__title nick_name"></h4>
+								<p class="weui-media-box__desc money"></p>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="weui-cells__title">钻石赠送(注意：请不要重复赠送)</div>
+				<div class="weui-cells">
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">玩家ID</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="agentId3" class="weui-input" type="text"
+								placeholder="清输入玩家ID">
+						</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">钻石数量</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="agentMoney3" class="weui-input" type="number"
+								pattern="[0-9]*" value="" placeholder="清输入钻石数量">
+						</div>
+					</div>
+				</div>
+				<a id="sendMoneySubmit" href="javascript:;"
+					style="margin-top: 25px;" class="weui-btn  weui-btn_primary">确定</a>
+			</div>
+
+			
+			<div id="tab4" class="weui-tab__bd-item">
+				<div class="weui-panel weui-panel_access">
+					<div class="weui-panel__bd">
+						<a href="javascript:void(0);"
+							class="weui-media-box weui-media-box_appmsg">
+							<div class="weui-media-box__hd">
+								<img class="weui-media-box__thumb head_image" src="">
+							</div>
+							<div class="weui-media-box__bd">
+								<h4 class="weui-media-box__title nick_name"></h4>
+								<p class="weui-media-box__desc money"></p>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="weui-cells">
+					<div class="weui-cells_title">账单查询</div>
+					<div class="weui-cell">
+						<div class="weui-cell__bd">
+							<p>总收入</p>
+						</div>
+						<div id="totalMoney" class="weui-cell__ft">0</div>
+					</div>
+					<div class="weui-cell weui-cell_select weui-cell_select-after">
+						<div class="weui-cell__hd">
+							<label for="" class="weui-label">开始时间</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input type="text" id='startTime' />
+						</div>
+					</div>
+					<div class="weui-cell weui-cell_select weui-cell_select-after">
+						<div class="weui-cell__hd">
+							<label for="" class="weui-label">结束时间</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input type="text" id='endTime' />
+						</div>
+					</div>
+				</div>
+				<a id="moneyQuery" href="javascript:;" style="margin-top: 25px;"
+					class="weui-btn  weui-btn_primary">查询</a>
+			</div>
+			
+			
+		</div>
+
+		<div class="weui-tabbar">
+			<a href="#tab2" class="weui-tabbar__item  weui-bar__item--on">
+				<div class="weui-tabbar__icon">
+					<img src="image/tabStatics.png" alt="">
+				</div>
+				<p class="weui-tabbar__label">总牌局统计</p>
+			</a> <a href="#tab3" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="image/tabStatics.png" alt="">
+				</div>
+				<p class="weui-tabbar__label">钻石赠送</p>
+			</a><a href="#tab4" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="image/tabStatics.png" alt="">
+				</div>
+				<p class="weui-tabbar__label">账单查询</p>
+			</a>
+
+		</div>
+	</div>
+	
+<!-- 	<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script> -->
+<!-- 	<script -->
+<!-- 		src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script> -->
+<!-- 	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> -->
+	
+<!-- 		<script src="3rd/jquery.min.js"></script> -->
+<!-- 	<script src="3rd/jquery-weui.min.js"></script> -->
+<!-- 	<script src="3rd/jweixin-1.0.0.js"></script> -->
+
+		<script src="https://cdn.nbcb.com.cn/3rd/jquery.min.js"></script>
+	<script
+		src="https://cdn.nbcb.com.cn/3rd/jquery-weui.min.js"></script>
+	<script src="https://cdn.nbcb.com.cn/3rd/jweixin-1.0.0.js"></script>
+	
+	
+	<script src="js/util.js"></script>
+	<script src="js/manager.js?time=884442550"></script>
+	<script src="js/jssdk.js"></script>
+</body>
+</html>

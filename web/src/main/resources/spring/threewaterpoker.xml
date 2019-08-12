@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+
+	<bean id="threeWaterPokerChannle" class="com.nbcb.poker.threewater.ThreeWaterPokerChannel">
+		<property name="pokerRule" ref="threeWaterPokerRule" />
+		<property name="server" ref="gameServer" />
+	</bean>
+
+
+
+	<bean id="threeWaterPokerRule" class="com.nbcb.poker.threewater.rule.ThreeWaterPokerRule">
+		<property name="actionExecutorMapping" ref="threeWaterPokerActionExecutorMapping" />
+		<property name="actionCalculatorMapping" ref="threeWaterPokerActionCalculatorMapping" />
+		<property name="roomStopJudger" ref="jushuRoomStopJudger" />
+		<property name="actionNotify" ref="threeWaterPokerRuleActionNotify" />
+	</bean>
+	
+	<bean id="threeWaterPokerDatabaseActionListener" class="com.nbcb.web.db.ThreeWaterPokerDatabaseActionListener">
+		<property name="gameDao" ref="gameDao">
+		</property>
+		<property name="moneyStrategyService" ref="moneyStrategyService">
+		</property>
+		<property name="gameUserDao" ref="gameUserDao">
+		</property>
+		<property name="gameMoneyDetailDao" ref="gameMoneyDetailDao">
+		</property>
+		<property name="taskExecutor" ref="taskExecutor">
+		</property>
+		<property name="roomDao" ref="roomDao">
+		</property>
+	</bean>
+
+	<bean id="threeWaterPokerRuleActionNotify" class="com.nbcb.core.action.ActionNotifySupport">
+		<property name="actionListeners">
+			<list>
+				<ref bean="consoleDisplayActionListener" />
+				<ref bean="threeWaterPokerDatabaseActionListener" />
+				<ref bean="webSocketNotifyActionListener" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- specialJudger -->
+	<bean id="couyisePokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterCouyisePokerUnitCardsJudger">
+	</bean>
+	<bean id="liuduibanPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterLiuduibanPokerUnitCardsJudger">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="quandaPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterQuandaPokerUnitCardsJudger">
+	</bean>
+	<bean id="quanxiaoPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterQuanxiaoPokerUnitCardsJudger">
+	</bean>
+	<bean id="sanfentianxiaPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterSanfentianxiaPokerUnitCardsJudger">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="sanshunziPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterSanshunziPokerUnitCardsJudger">
+		<property name="sequencePokerUnitCardsJudger" ref="sequencePokerUnitCardsJudger" />
+	</bean>
+	<bean id="santonghuaPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterSantonghuaPokerUnitCardsJudger">
+		<property name="colorSamePokerUnitCardsJudger" ref="colorSamePokerUnitCardsJudger" />
+	</bean>
+	<bean id="santonghuashunPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterSantonghuashunPokerUnitCardsJudger">
+		<property name="sequencePokerUnitCardsJudger" ref="sequencePokerUnitCardsJudger" />
+		<property name="colorSamePokerUnitCardsJudger" ref="colorSamePokerUnitCardsJudger" />
+	</bean>
+	<bean id="shierhuangzuPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterShierhuangzuPokerUnitCardsJudger">
+	</bean>
+	<bean id="sitaosantiaoPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterSitaosantiaoPokerUnitCardsJudger">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="wuduisantiaoPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterWuduisantiaoPokerUnitCardsJudger">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="yitiaolongPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterYitiaolongPokerUnitCardsJudger">
+		<property name="sequencePokerUnitCardsFinder" ref="sequencePokerUnitCardsFinder" />
+	</bean>
+	<bean id="zhizunqinglongPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterZhizunqinglongPokerUnitCardsJudger">
+		<property name="sequencePokerUnitCardsFinder" ref="sequencePokerUnitCardsFinder" />
+		<property name="colorSamePokerUnitCardsJudger" ref="colorSamePokerUnitCardsJudger" />
+	</bean>
+	<bean id="specialPokerUnitCardsJudger"
+		class="com.nbcb.poker.card.strategy.base.ListPokerUnitCardsJudger">
+		<property name="listPokerUnitCardsJudger">
+			<list>
+				<ref bean="zhizunqinglongPokerUnitCardsJudger" />
+				<ref bean="yitiaolongPokerUnitCardsJudger" />
+				<ref bean="shierhuangzuPokerUnitCardsJudger" />
+				<ref bean="santonghuashunPokerUnitCardsJudger" />
+				<ref bean="sanfentianxiaPokerUnitCardsJudger" />
+				<ref bean="quandaPokerUnitCardsJudger" />
+				<ref bean="quanxiaoPokerUnitCardsJudger" />
+				<ref bean="couyisePokerUnitCardsJudger" />
+				<ref bean="sitaosantiaoPokerUnitCardsJudger" />
+				<ref bean="wuduisantiaoPokerUnitCardsJudger" />
+				<ref bean="liuduibanPokerUnitCardsJudger" />
+				<ref bean="sanshunziPokerUnitCardsJudger" />
+				<ref bean="santonghuaPokerUnitCardsJudger" />
+			</list>
+		</property>
+	</bean>
+	<!-- specialJudger -->
+
+
+	<!-- normalJudger -->
+	<bean id="threeWaterDuiziPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterDuiziPokerUnitCardsJudger">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterHuluPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterHuluPokerUnitCardsJudger">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterLiangduiPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterLiangduiPokerUnitCardsJudger">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterSantiaoPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterSantiaoPokerUnitCardsJudger">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+		<property name="numberSamePokerUnitCardsJudger" ref="numberSamePokerUnitCardsJudger" />
+	</bean>
+	<bean id="threeWaterShunziPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterShunziPokerUnitCardsJudger">
+		<property name="sequencePokerUnitCardsJudger" ref="sequencePokerUnitCardsJudger" />
+		<property name="colorSamePokerUnitCardsJudger" ref="colorSamePokerUnitCardsJudger" />
+	</bean>
+	<bean id="threeWaterTiezhiPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterTiezhiPokerUnitCardsJudger">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterTonghuaPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterTonghuaPokerUnitCardsJudger">
+		<property name="sequencePokerUnitCardsJudger" ref="sequencePokerUnitCardsJudger" />
+		<property name="colorSamePokerUnitCardsJudger" ref="colorSamePokerUnitCardsJudger" />
+	</bean>
+	<bean id="threeWaterTonghuaShunPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterTonghuaShunPokerUnitCardsJudger">
+		<property name="sequencePokerUnitCardsJudger" ref="sequencePokerUnitCardsJudger" />
+		<property name="colorSamePokerUnitCardsJudger" ref="colorSamePokerUnitCardsJudger" />
+	</bean>
+	<bean id="threeWaterWulongPokerUnitCardsJudger"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterWulongPokerUnitCardsJudger">
+		<property name="sequencePokerUnitCardsJudger" ref="sequencePokerUnitCardsJudger" />
+		<property name="colorSamePokerUnitCardsJudger" ref="colorSamePokerUnitCardsJudger" />
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="normalPokerUnitCardsJudger"
+		class="com.nbcb.poker.card.strategy.base.ListPokerUnitCardsJudger">
+		<property name="listPokerUnitCardsJudger">
+			<list>
+				<ref bean="threeWaterTonghuaShunPokerUnitCardsJudger" />
+				<ref bean="threeWaterTiezhiPokerUnitCardsJudger" />
+				<ref bean="threeWaterHuluPokerUnitCardsJudger" />
+				<ref bean="threeWaterTonghuaPokerUnitCardsJudger" />
+				<ref bean="threeWaterShunziPokerUnitCardsJudger" />
+				<ref bean="threeWaterSantiaoPokerUnitCardsJudger" />
+				<ref bean="threeWaterLiangduiPokerUnitCardsJudger" />
+				<ref bean="threeWaterDuiziPokerUnitCardsJudger" />
+				<ref bean="threeWaterWulongPokerUnitCardsJudger" />
+			</list>
+		</property>
+	</bean>
+	<!-- normalJudger -->
+
+
+	<!-- normalFinder -->
+	<bean id="threeWaterDuiziPokerUnitCardsFinder"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterDuiziPokerUnitCardsFinder">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterHuluPokerUnitCardsFinder"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterHuluPokerUnitCardsFinder">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterLiangduiPokerUnitCardsFinder"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterLiangduiPokerUnitCardsFinder">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterSantiaoPokerUnitCardsFinder"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterSantiaoPokerUnitCardsFinder">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterShunziPokerUnitCardsFinder"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterShunziPokerUnitCardsFinder">
+		<property name="sequencePokerUnitCardsFinder" ref="sequencePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterTiezhiPokerUnitCardsFinder"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterTiezhiPokerUnitCardsFinder">
+		<property name="numberSamePokerUnitCardsFinder" ref="numberSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterTonghuaPokerUnitCardsFinder"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterTonghuaPokerUnitCardsFinder">
+		<property name="colorSamePokerUnitCardsFinder" ref="colorSamePokerUnitCardsFinder" />
+	</bean>
+	<bean id="threeWaterTonghuaShunPokerUnitCardsFinder"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterTonghuaShunPokerUnitCardsFinder">
+		<property name="sequencePokerUnitCardsFinder" ref="sequencePokerUnitCardsFinder" />
+	</bean>
+	<!-- normalFinder -->
+
+	<bean id="threeWaterPokerShootChooser"
+		class="com.nbcb.poker.threewater.rule.DefaultThreeWaterPokerShootChooser">
+		<property name="normalPokerUnitCardsCompare" ref="threeWaterNormalPokerUnitCardsCompare" />
+		<property name="normalPokerUnitCardsJudger" ref="normalPokerUnitCardsJudger" />
+		<property name="listFinder">
+			<list>
+				<ref bean="threeWaterTonghuaShunPokerUnitCardsFinder" />
+				<ref bean="threeWaterTiezhiPokerUnitCardsFinder" />
+				<ref bean="threeWaterHuluPokerUnitCardsFinder" />
+				<ref bean="threeWaterTonghuaPokerUnitCardsFinder" />
+				<ref bean="threeWaterShunziPokerUnitCardsFinder" />
+				<ref bean="threeWaterSantiaoPokerUnitCardsFinder" />
+				<ref bean="threeWaterLiangduiPokerUnitCardsFinder" />
+				<ref bean="threeWaterDuiziPokerUnitCardsFinder" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="threeWaterNormalPokerUnitCardsCompare"
+		class="com.nbcb.poker.threewater.rule.judger.normal.ThreeWaterNormalPokerUnitCardsCompare">
+	</bean>
+	<bean id="threeWaterSpecialPokerUnitCardsCompare"
+		class="com.nbcb.poker.threewater.rule.judger.special.ThreeWaterSpecialPokerUnitCardsCompare">
+	</bean>
+
+
+
+
+	<bean id="threeWaterPokerAllocateActionExecutor"
+		class="com.nbcb.poker.threewater.rule.ThreeWaterPokerAllocateActionExecutor">
+		<property name="threeWaterPokerShootChooser" ref="threeWaterPokerShootChooser" />
+		<property name="specialPokerUnitCardsJudger" ref="specialPokerUnitCardsJudger" />
+	</bean>
+
+
+	<bean id="threeWaterPokerShootActionExecutor"
+		class="com.nbcb.poker.threewater.rule.ThreeWaterPokerShootActionExecutor">
+		<property name="normalPokerUnitCardsJudger" ref="normalPokerUnitCardsJudger" />
+		<property name="pokerUnitCardsCompare" ref="threeWaterNormalPokerUnitCardsCompare" />
+	</bean>
+
+
+	<bean id="threeWaterPokerCompareActionExecutor"
+		class="com.nbcb.poker.threewater.rule.ThreeWaterPokerCompareActionExecutor">
+		<property name="normalPokerUnitCardsCompare" ref="threeWaterNormalPokerUnitCardsCompare" />
+		<property name="specialPokerUnitCardsCompare" ref="threeWaterSpecialPokerUnitCardsCompare" />
+	</bean>
+
+	<bean id="threeWaterPokerScoreComputer"
+		class="com.nbcb.poker.threewater.rule.ThreeWaterPokerScoreComputer">
+		<property name="normalPokerUnitCardsCompare" ref="threeWaterNormalPokerUnitCardsCompare" />
+		<property name="specialPokerUnitCardsCompare" ref="threeWaterSpecialPokerUnitCardsCompare" />
+		<property name="mapSpecial">
+			<map>
+				<entry key="至尊青龙" value="104" />
+				<entry key="一条龙" value="52" />
+				<entry key="十二皇族" value="26" />
+				<entry key="三同花顺" value="26" />
+				<entry key="三分天下" value="26" />
+				<entry key="全大" value="6" />
+				<entry key="全小" value="6" />
+				<entry key="凑一色" value="6" />
+				<entry key="四套三条" value="6" />
+				<entry key="五对三条" value="6" />
+				<entry key="六对半" value="6" />
+				<entry key="三顺子" value="6" />
+				<entry key="三同花" value="6" />
+			</map>
+		</property>
+	</bean>
+	<bean id="threeWaterPokerCompleteActionExecutor"
+		class="com.nbcb.poker.threewater.rule.ThreeWaterPokerCompleteActionExecutor">
+		<property name="threeWaterPokerScoreComputer" ref="threeWaterPokerScoreComputer" />
+	</bean>
+
+
+	<bean id="threeWaterPokerActionExecutorMapping" class="com.nbcb.core.rule.DefaultActionExecutorMapping">
+		<property name="actionExecutors">
+			<list>
+				<ref bean="emptyMajiangActionExecutor" />
+				<ref bean="threeWaterPokerAllocateActionExecutor" />
+				<ref bean="threeWaterPokerShootActionExecutor" />
+				<ref bean="threeWaterPokerCompareActionExecutor" />
+				<ref bean="threeWaterPokerCompleteActionExecutor" />
+			</list>
+		</property>
+	</bean>
+
+
+
+	<bean id="threeWaterPokerAllocateActionCalculator"
+		class="com.nbcb.poker.threewater.rule.ThreeWaterPokerAllocateActionCalculator">
+	</bean>
+	<bean id="threeWaterPokerShootActionCalculator"
+		class="com.nbcb.poker.threewater.rule.ThreeWaterPokerShootActionCalculator">
+	</bean>
+	<bean id="threeWaterPokerCompareActionCalculator"
+		class="com.nbcb.poker.threewater.rule.ThreeWaterPokerCompareActionCalculator">
+	</bean>
+	<bean id="threeWaterPokerCompleteActionCalculator"
+		class="com.nbcb.poker.threewater.rule.ThreeWaterPokerCompleteActionCalculator">
+	</bean>
+	<bean id="threeWaterPokerActionCalculatorMapping" class="com.nbcb.core.rule.DefaultActionCalculatorMapping">
+		<property name="actionCalculators">
+			<list>
+				<ref bean="emptyMajiangActionCalculator" />
+				<ref bean="threeWaterPokerAllocateActionCalculator" />
+				<ref bean="threeWaterPokerShootActionCalculator" />
+				<ref bean="threeWaterPokerCompareActionCalculator" />
+				<ref bean="threeWaterPokerCompleteActionCalculator" />
+			</list>
+		</property>
+	</bean>
+
+
+
+
+
+</beans>

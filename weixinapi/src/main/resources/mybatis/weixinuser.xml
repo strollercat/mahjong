@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="weixinUser">
+	<select id="selectUserByOpenid" resultType="com.nbcb.weixinapi.entity.WeixinReplyUser"
+		parameterType="com.nbcb.weixinapi.entity.WeixinReplyUser">
+		select appid ,
+		subscribe ,
+		openid ,
+		nickname ,
+		sex ,
+		language ,
+		city ,
+		province ,
+		country ,
+		headimgurl ,
+		subscribe_time1 ,
+		unionid ,
+		remark
+		from wx_user where appid = #{appid} and
+		openid=#{openid}
+	</select>
+
+	<update id="updateUserSubscribeByOpenid" parameterType="com.nbcb.weixinapi.entity.WeixinReplyUser">
+		update
+		wx_user set subscribe = #{subscribe} where appid = #{appid} and
+		openid=#{openid}
+	</update>
+
+	<update id="updateUserByOpenid" parameterType="com.nbcb.weixinapi.entity.WeixinReplyUser">
+		update wx_user set
+		appid =#{appid},
+		subscribe =#{subscribe},
+		openid =#{openid},
+		nickname=#{nickname},
+		sex =#{sex},
+		language =#{language},
+		city =#{city},
+		province=#{province},
+		country =#{country},
+		headimgurl =#{headimgurl},
+		subscribe_time1=#{subscribe_time1} ,
+		unionid =#{unionid},
+		remark=#{remark},
+		groupid =#{groupid}
+		where appid = #{appid} and
+		openid=#{openid}
+	</update>
+
+	<insert id="insertUser" parameterType="com.nbcb.weixinapi.entity.WeixinReplyUser">
+		insert into wx_user(
+		appid,
+		subscribe ,
+		openid ,
+		nickname ,
+		sex ,
+		language ,
+		city ,
+		province ,
+		country ,
+		headimgurl ,
+		subscribe_time1 ,
+		unionid ,
+		remark ,
+		groupid
+		)values(
+		#{appid} ,
+		#{subscribe} ,
+		#{openid} ,
+		#{nickname} ,
+		#{sex},
+		#{language} ,
+		#{city} ,
+		#{province},
+		#{country} ,
+		#{headimgurl} ,
+		#{subscribe_time1},
+		#{unionid} ,
+		#{remark} ,
+		#{groupid}
+		)
+	</insert>
+
+
+
+
+</mapper>  

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="guangdongMajiangChannel" class="com.nbcb.majiang.guangdong.GuangdongMajiangChannel">
+		<property name="majiangRule" ref="guangdongMajiangRule" />
+		<property name="server" ref="gameServer" />
+	</bean>
+
+	<bean id="guangdongMajiangCardValidateActionListener"
+		class="com.nbcb.majiang.guangdong.GuangdongMajiangCardValidateActionListener">
+	</bean>
+
+
+
+
+	<!-- action 监听器 -->
+	<bean id="guangdongMajiangActionNotify" class="com.nbcb.core.action.ActionNotifySupport">
+		<property name="actionListeners">
+			<list>
+				<ref bean="consoleDisplayActionListener" />
+				<ref bean="guangdongMajiangCardValidateActionListener" />
+				<ref bean="databaseActionListener" />
+				<ref bean="webSocketNotifyActionListener" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="guangdongMajiangRule" class="com.nbcb.majiang.rule.MajiangRule">
+		<property name="roomStopJudger" ref="jushuRoomStopJudger"></property>
+		<property name="actionExecutorMapping" ref="guangdongMajiangActionExecutorMapping" />
+		<property name="actionCalculatorMapping" ref="guangdongMajiangActionCalculatorMapping" />
+		<property name="actionNotify" ref="guangdongMajiangActionNotify" />
+	</bean>
+
+
+
+	<bean id="guangdongMajiangAllocateActionExecutor"
+		class="com.nbcb.majiang.guangdong.GuangdongMajiangAllocateActionExecutor">
+	</bean>
+
+	<bean id="guangdongMajiangMaimaActionExecutor"
+	class="com.nbcb.majiang.guangdong.GuangdongMajiangMaimaActionExecutor">
+	</bean>
+	<bean id="guangdongMajiangActionExecutorMapping" class="com.nbcb.core.rule.DefaultActionExecutorMapping">
+		<property name="actionExecutors">
+			<list>
+				<ref bean="emptyMajiangActionExecutor" />
+				<ref bean="guangdongMajiangAllocateActionExecutor" />
+				<ref bean="majiangMoFrontActionExecutor" />
+				<ref bean="majiangMoBackActionExecutor" />
+				<ref bean="majiangMoFrontHuActionExecutor" />
+				<ref bean="majiangMoBackHuActionExecutor" />
+				<ref bean="majiangFangQiangHuActionExecutor" />
+				<ref bean="majiangQiangGangHuActionExecutor" />
+				<ref bean="majiangDaHuaActionExecutor" />
+				<ref bean="hongzhongMajiangDaNonHuaActionExecutor" />
+				<ref bean="majiangPengActionExecutor" />
+				<ref bean="majiangChiActionExecutor" />
+				<ref bean="majiangXianGangActionExecutor" />
+				<ref bean="majiangMingGangActionExecutor" />
+				<ref bean="majiangAnGangActionExecutor" />
+				<ref bean="majiangHuangPaiActionExecutor" />
+				<ref bean="hongzhongMajiangCompleteActionExecutor" />
+				<ref bean="emptyMajiangActionExecutor" />
+				<ref bean="guangdongMajiangMaimaActionExecutor" />
+			</list>
+		</property>
+	</bean>
+
+
+
+
+	<bean id="guangdongMajiangActionCalculatorMapping" class="com.nbcb.core.rule.DefaultActionCalculatorMapping">
+		<property name="actionCalculators">
+			<list>
+				<ref bean="emptyMajiangActionCalculator" />
+				<ref bean="majiangAllocateActionCalculator" />
+				<ref bean="hongzhongMajiangMoFrontActionCalculator" />
+				<ref bean="hongzhongMajiangMoBackActionCalculator" />
+				<ref bean="hongzhongMajiangHuActionCalculator" />
+				<ref bean="hongzhongMajiangHuActionCalculator" />
+				<ref bean="hongzhongMajiangHuActionCalculator" />
+				<ref bean="hongzhongMajiangHuActionCalculator" />
+				<ref bean="majiangDaHuaActionCalculator" />
+				<ref bean="hongzhongMajiangDaNonHuaActionCalculator" />
+				<ref bean="majiangPengActionCalculator" />
+				<ref bean="majiangChiActionCalculator" />
+				<ref bean="hongzhongMajiangXianGangActionCalculator" />
+				<ref bean="majiangMingGangActionCalculator" />
+				<ref bean="hongzhongMajiangAnGangActionCalculator" />
+				<ref bean="majiangHuangPaiActionCalculator" />
+				<ref bean="majiangCompleteActionCalculator" />
+				<ref bean="emptyMajiangActionCalculator" />
+				<ref bean="hongzhongMajiangMaimaActionCalculator" />
+			</list>
+		</property>
+	</bean>
+
+
+
+
+
+</beans>

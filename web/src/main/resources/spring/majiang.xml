@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+	<bean id="ningboMajiangChannel" class="com.nbcb.majiang.ningbo.NingboMajiangChannel">
+		<property name="server" ref="gameServer">
+		</property>
+		<property name="fourBaidaRule" ref="ningbo4baidaMajiangRule">
+		</property>
+		<property name="sevenBaidaRule" ref="ningbo7baidaMajiangRule">
+		</property>
+		<property name="threeBaidaRule" ref="ningbo3baidaMajiangRule">
+		</property>
+	</bean>
+
+
+	<bean id="majiangAllCardsOfFull" class="com.nbcb.majiang.card.MajiangAllCards"
+		init-method="start" scope="prototype">
+	</bean>
+
+
+
+
+
+	<bean id="ningboMajiangRule" class="com.nbcb.majiang.rule.MajiangRule">
+		<property name="actionExecutorMapping" ref="defaultActionExecutorMapping" />
+		<property name="actionCalculatorMapping" ref="defaultActionCalculatorMapping" />
+		<property name="actionNotify" ref="actionNotify" />
+	</bean>
+
+
+	<!-- action 监听器 -->
+	<bean id="actionNotify" class="com.nbcb.core.action.ActionNotifySupport">
+		<property name="actionListeners">
+			<list>
+				<ref bean="consoleDisplayActionListener" />
+				<ref bean="majiangCardValidateActionListener" />
+				<ref bean="databaseActionListener" />
+				<ref bean="webSocketNotifyActionListener" />
+			</list>
+		</property>
+	</bean>
+	<bean id="consoleDisplayActionListener"
+		class="com.nbcb.majiang.actionlistener.ConsoleDisplayActionListener">
+	</bean>
+	<bean id="majiangCardValidateActionListener"
+		class="com.nbcb.majiang.actionlistener.MajiangCardValidateActionListener">
+	</bean>
+	<bean id="webSocketNotifyActionListener" class="com.nbcb.web.websocket.WebSocketNotifyActionListener">
+		<property name="userOutputApi" ref="userOutputApi">
+		</property>
+	</bean>
+	<bean id="databaseActionListener" class="com.nbcb.web.db.DatabaseActionListener">
+		<property name="gameDao" ref="gameDao">
+		</property>
+		<property name="moneyStrategyService" ref="moneyStrategyService">
+		</property>
+		<property name="gameUserDao" ref="gameUserDao">
+		</property>
+		<property name="gameMoneyDetailDao" ref="gameMoneyDetailDao">
+		</property>
+		<property name="taskExecutor" ref="taskExecutor">
+		</property>
+		<property name="roomDao" ref="roomDao">
+		</property>
+	</bean>
+
+
+
+
+
+	<bean id="majiangThreeActiveBao" class="com.nbcb.majiang.rule.judger.hu.MajiangThreeActiveBao">
+	</bean>
+	<bean id="majiangFourActiveBao" class="com.nbcb.majiang.rule.judger.hu.MajiangThreeActiveBao">
+		<property name="times" value="4" />
+	</bean>
+	<bean id="majiangThreePassiveBao" class="com.nbcb.majiang.rule.judger.hu.MajiangThreePassiveBao">
+		<property name="majiangThreeActiveBao" ref="majiangThreeActiveBao">
+		</property>
+	</bean>
+	<bean id="majiangThreeBao"
+		class="com.nbcb.majiang.rule.judger.hu.MajiangThreeBaoCalculator">
+		<property name="majiangThreeActiveBaoCalculator" ref="majiangThreeActiveBao">
+		</property>
+		<property name="majiangThreePassiveBaoCalculator" ref="majiangThreePassiveBao">
+		</property>
+	</bean>
+
+
+
+
+</beans>

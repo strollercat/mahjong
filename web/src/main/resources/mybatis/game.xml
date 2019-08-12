@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="game">
+
+	<!-- room sql -->
+	<select id="selectRoomById" parameterType="java.lang.Integer"
+		resultType="com.nbcb.web.dao.entity.RoomDaoEntity">
+		select * from gm_room where id=#{id}
+	</select>
+	<insert id="insertRoom" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.nbcb.web.dao.entity.RoomDaoEntity">
+		insert into
+		gm_room(roomid,create_account,create_time,end_time,users,room_info,recommend,name,total_ju,player_num,end_reason,time_range,cost_money)
+		values(#{roomid},#{create_account},#{create_time},#{end_time},#{users},#{room_info},#{recommend},#{name},#{total_ju},#{player_num},#{end_reason},#{time_range},#{cost_money})
+	</insert>
+	<update id="updateRoomUsers" parameterType="com.nbcb.web.dao.entity.RoomDaoEntity">
+		update
+		gm_room set
+		end_time = #{end_time}, users
+		=#{users},end_reason=#{end_reason},end_ju = ${end_ju} where id = #{id}
+	</update>
+	<update id="updateRoomCostMoney" parameterType="com.nbcb.web.dao.entity.RoomDaoEntity">
+		update gm_room
+		set cost_money = #{cost_money} where id = #{id}
+	</update>
+	<select id="selectLastRoomByRoomId" parameterType="java.lang.String"
+		resultType="com.nbcb.web.dao.entity.RoomDaoEntity">
+		select * from gm_room where roomid= #{roomId} order by
+		create_time desc limit 1
+	</select>
+	<select id="selectUnfinishRoomByCreateAccount" parameterType="java.lang.String"
+		resultType="com.nbcb.web.dao.entity.RoomDaoEntity">
+		select * from gm_room where users is null and end_time is
+		null and create_account = #{createAccount}
+	</select>
+	<select id="selectUnfinishRoom" resultType="com.nbcb.web.dao.entity.RoomDaoEntity">
+		select * from gm_room
+		where users is null and end_time is null
+	</select>
+
+	<select id="totalRoomsOfTimes" resultType="java.lang.Integer"
+		parameterType="com.nbcb.web.dao.entity.TimeRange">
+		 <![CDATA[  
+			select count(*) from gm_room where end_ju > 0 and
+			create_time >= #{startTime} and create_time < #{endTime}
+		 ]]>
+	</select>
+
+	<select id="totalRoomsByTimesAndJuAndRecommend" resultType="java.lang.Integer"
+		parameterType="java.util.HashMap">
+		 <![CDATA[  
+			select count(*) from gm_room where recommend=#{recommend} and total_ju = #{ju} and end_ju > 0 and create_time >= #{startTime} and create_time < #{endTime}
+		 ]]>
+	</select>
+
+	<select id="selectRoomsByRecommendByTimeAndPage" resultType="com.nbcb.web.dao.entity.RoomDaoEntity"
+		parameterType="java.util.HashMap">
+		 <![CDATA[  
+			select * from gm_room where recommend = #{recommend} and end_ju > 0 and create_time <= #{endTime} order by create_time desc  limit #{start},#{rows}
+		 ]]>
+	</select>
+	<select id="selectRoomsByTimeAndPage" resultType="com.nbcb.web.dao.entity.RoomDaoEntity"
+		parameterType="java.util.HashMap">
+		 <![CDATA[  
+			select * from gm_room where  end_ju > 0 and create_time <= #{endTime} order by create_time desc  limit #{start},#{rows}
+		 ]]>
+	</select>
+
+	<select id="totalMoneyConsumedByTimesAndRecommend" resultType="java.lang.Integer"
+		parameterType="java.util.HashMap">
+		 <![CDATA[  
+			select sum(cost_money) from gm_room where recommend = #{recommend} and end_ju > 0 and create_time >= #{startTime} and create_time < #{endTime}
+		 ]]>
+	</select>
+	<select id="selectRoomsByCreateAccountByTimeAndPage" resultType="com.nbcb.web.dao.entity.RoomDaoEntity"
+		parameterType="java.util.HashMap">
+		 <![CDATA[  
+			select * from gm_room where create_account = #{createAccount}  and create_time <= #{endTime} order by create_time desc  limit #{start},#{rows}
+		 ]]>
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- game sql -->
+	<insert id="insertGame" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.nbcb.web.dao.entity.GameDaoEntity">
+		insert into
+		gm_game(create_time,users,end_time,game_info,roomid)
+		values(#{create_time},#{users},#{end_time},#{game_info},#{roomid})
+	</insert>
+	<update id="updateGameUsers" parameterType="com.nbcb.web.dao.entity.GameDaoEntity">
+		update gm_game set
+		end_time =
+		#{end_time},users =#{users} where id = #{id}
+	</update>
+	<select id="findTotalGameByRoomId" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select count(*) from gm_game where roomid = #{roomId}
+	</select>
+
+	<select id="findUnfinishGameByRoomId" parameterType="java.lang.Integer"
+		resultType="com.nbcb.web.dao.entity.GameDaoEntity">
+		select * from
+		gm_game where end_time is null and users is
+		null and roomid=#{id}
+	</select>
+	<select id="findGamesByRoomid" parameterType="java.lang.Integer"
+		resultType="com.nbcb.web.dao.entity.GameDaoEntity">
+		select * from
+		gm_game where roomid=#{id}
+	</select>
+
+
+
+	<!-- game user sql -->
+	<select id="selectGameUserById" parameterType="java.lang.Integer"
+		resultType="com.nbcb.web.dao.entity.GameUser">
+		select * from gm_user where id=#{id}
+	</select>
+	<select id="selectGameUserByAccount" parameterType="java.lang.String"
+		resultType="com.nbcb.web.dao.entity.GameUser">
+		select * from gm_user where openid=#{openid}
+	</select>
+	<select id="selectRecommendGameUsersByPage" parameterType="com.nbcb.web.dao.entity.Page"
+		resultType="com.nbcb.web.dao.entity.GameUser">
+		select * from gm_user where recommend = 1 order by id limit
+		#{start},#{rows}
+	</select>
+	<select id="selectTotalUsers" resultType="java.lang.Integer">
+		select count(*) from
+		gm_user
+	</select>
+	<select id="selectTotalLiveUsers" resultType="java.lang.Integer">
+		select count(*)
+		from gm_user where (win+lose+ping)!=0
+	</select>
+	<insert id="insertGameUser" parameterType="com.nbcb.web.dao.entity.GameUser">
+		insert into gm_user
+		(openid,win,lose,ping,score,money,recommend,rec_room,rec_money)values(#{openid},#{win},#{lose},#{ping},#{score},#{money},#{recommend},#{rec_room},#{rec_money});
+	</insert>
+	<update id="increaseWin" parameterType="java.lang.String">
+		update
+		gm_user set win =
+		win+1 where openid = #{openid}
+	</update>
+	<update id="increaseLose" parameterType="java.lang.String">
+		update
+		gm_user set lose
+		=
+		lose+1 where openid = #{openid}
+	</update>
+	<update id="increasePing" parameterType="java.lang.String">
+		update
+		gm_user set ping
+		=
+		ping+1 where openid = #{openid}
+	</update>
+	<update id="addScore" parameterType="com.nbcb.web.dao.entity.GameUser">
+		update
+		gm_user set score
+		=
+		score + #{score} where openid = #{openid}
+	</update>
+	<update id="addMoney" parameterType="com.nbcb.web.dao.entity.GameUser">
+		update
+		gm_user set money
+		=
+		money + #{money} where openid = #{openid}
+	</update>
+	<update id="updateRecommendById" parameterType="com.nbcb.web.dao.entity.GameUser">
+		update
+		gm_user set
+		recommend
+		= #{recommend} where id = #{id}
+	</update>
+
+	<select id="selectGameUsersByPageAndScoredir" resultType="com.nbcb.web.dao.entity.GameUser"
+		parameterType="java.util.HashMap">
+		select gm_user.* from gm_user
+		<where>
+			<if test="scoreDir==1">
+				1=1 order by gm_user.score limit #{start},#{rows}
+			</if>
+			<if test="scoreDir!=1">
+				1=1 order by gm_user.score desc limit #{start},#{rows}
+			</if>
+		</where>
+	</select>
+
+
+
+
+
+
+
+
+
+	<!-- game advice sql -->
+	<insert id="insertGameAdvice" parameterType="com.nbcb.web.dao.entity.GameAdvice">
+		insert into
+		gm_advice(id,type,game_type,advice,name,phone,openid,time)values
+		(#{id},#{type},#{game_type},#{advice},#{name},#{phone},#{openid},#{time})
+	</insert>
+	<select id="seletGameAdvicesByAccount" parameterType="java.lang.String"
+		resultType="com.nbcb.web.dao.entity.GameAdvice">
+		select * from gm_advice where openid=#{account}
+	</select>
+
+
+
+
+	<!-- game money detail -->
+	<insert id="insertGameMoneyDetail" parameterType="com.nbcb.web.dao.entity.GameMoneyDetail">
+		insert into
+		gm_money_detail(openid,money,action,remark,relate,time)values(#{openid},#{money},#{action},#{remark},#{relate},#{time})
+	</insert>
+	<select id="selectGameMoneyDetailsByAccount" parameterType="java.lang.String"
+		resultType="com.nbcb.web.dao.entity.GameMoneyDetail">
+		select * from gm_money_detail where openid=#{account}
+	</select>
+	<select id="totalMoneyByActionAndTimeRange" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+		 <![CDATA[  
+			select sum(money) from gm_money_detail where action =#{action} and time >= #{startTime} and time < #{endTime}
+		 ]]>
+	</select>
+	<select id="totalMoneyByActionAccountAndTimeRange" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+		 <![CDATA[  
+			select sum(money) from gm_money_detail where action =#{action} and openid = #{account} and time >= #{startTime} and time < #{endTime}
+		 ]]>
+	</select>
+	<select id="getMoneyDetailsByActionAccountAndPage" parameterType="java.util.HashMap"
+		resultType="com.nbcb.web.dao.entity.GameMoneyDetail">
+		 <![CDATA[  
+			select * from gm_money_detail where openid = #{account}  and action = #{action} and time < #{endTime} order by time desc  limit #{start},#{rows}
+		 ]]>
+	</select>
+	
+				
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	<!-- gameuserroom -->
+	<insert id="insertGameUserRoom" parameterType="com.nbcb.web.dao.entity.GameUserRoom">
+		insert into
+		gm_user_room(account,roomid,overtime)values(#{account},#{roomid},#{overtime})
+	</insert>
+	<select id="selectLastGameUserRoomByAccount" resultType="com.nbcb.web.dao.entity.GameUserRoom">
+		select *
+		from gm_user_room where account= #{account} order by
+		overtime desc
+		limit 1
+	</select>
+
+	<select id="selectGameUserRoomsByAccountAndTimeAndPage"
+		resultType="com.nbcb.web.dao.entity.GameUserRoom" parameterType="java.util.HashMap">
+		<![CDATA[  
+			select * from gm_user_room where account = #{account} and overtime <= #{endTime} order by overtime desc limit #{start},#{rows}
+		 ]]>
+	</select>
+
+
+	<!-- gameaction -->
+	<insert id="insertGameAction" parameterType="com.nbcb.web.dao.entity.GameAction">
+		insert into
+		gm_action(account ,action ,cards ,useraction,attribute,
+		actionindex,gameid, action_time)
+		values(#{account} ,#{action} ,#{cards}
+		,#{useraction},#{attribute}, #{actionindex},#{gameid}, #{action_time})
+	</insert>
+	<select id="selectGameActionsByGameid" resultType="com.nbcb.web.dao.entity.GameAction">
+		select * from
+		gm_action where gameid = #{gameid} order by id
+	</select>
+
+
+
+
+	<!-- game_order -->
+	<insert id="insertGameOrder" useGeneratedKeys="true"
+		keyProperty="id" parameterType="java.util.HashMap">
+		insert into gm_order(
+		appid,mch_id,device_info ,openid ,is_subscribe ,trade_type , bank_type
+		, total_fee , settlement_total_fee ,fee_type , cash_fee ,
+		cash_fee_type ,coupon_fee ,coupon_count ,coupon_type_$n ,coupon_id_$n
+		,coupon_fee_$n ,transaction_id ,out_trade_no ,attach ,time_end )
+		values(#{appid} , #{mch_id}, #{device_info} , #{openid} ,
+		#{is_subscribe} ,#{trade_type} , #{bank_type} , #{total_fee} ,
+		#{settlement_total_fee} ,#{fee_type} , #{cash_fee} , #{cash_fee_type}
+		,#{coupon_fee} ,#{coupon_count} ,#{coupon_type_$n} ,#{coupon_id_$n}
+		,#{coupon_fee_$n} ,#{transaction_id} ,#{out_trade_no} ,#{attach}
+		,#{time_end});
+	</insert>
+	<select id="selectGameOrderByTradeNo" parameterType="java.lang.String"
+		resultType="java.util.HashMap">
+		select * from gm_order where out_trade_no = #{outTradeNo}
+	</select>
+	<select id="getTotalPayByTimeRange" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+		 <![CDATA[  
+		 	select sum(total_fee) from gm_order where time_end >= #{startTime} and time_end < #{endTime}
+		 ]]>
+	</select>
+
+
+	<!-- gamedict -->
+	<select id="selectValueByKey" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select dvalue from gm_dict where dkey=#{dkey}
+	</select>
+
+
+
+</mapper>  

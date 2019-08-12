@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="weixinAccount">
+	<select id="findAll" resultType="com.nbcb.weixinapi.entity.WeixinAccount">
+		select * from wx_account
+	</select>
+
+	<select id="selectWeixinAccountByAppidForUpdate" resultType="com.nbcb.weixinapi.entity.WeixinAccount">
+		select * from wx_account where appid=#{appid} for update
+	</select>
+
+	<update id="updateAccessTokenByAppid" parameterType="com.nbcb.weixinapi.entity.WeixinAccount">
+		update
+		wx_account set access_token =#{access_token}
+		,token_expire_time
+		=#{token_expire_time} where appid =#{appid}
+	</update>
+
+	<update id="updateTicketByAppid" parameterType="com.nbcb.weixinapi.entity.WeixinAccount">
+		update
+		wx_account
+		set ticket =#{ticket}
+		,ticket_expire_time
+		=#{ticket_expire_time} where
+		appid =#{appid}
+	</update>
+
+</mapper>  
