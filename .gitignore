@@ -1,0 +1,6 @@
+##ignore these files##
+/target/
+.project
+.classpath
+.settings
+/build
